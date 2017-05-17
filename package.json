@@ -1,0 +1,16 @@
+{
+  "name": "comic-translator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "author": "Stein Cato Blostrupmoen",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next"
+  },
+  "dependencies": {
+    "next": "^2.3.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
