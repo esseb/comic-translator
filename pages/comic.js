@@ -1,12 +1,12 @@
 // @flow
 
 import Main from "../layout/Main";
-import SelectableWords from "../components/SelectableWords";
+import TranslateBubble from "../components/TranslateBubble";
 
 const Comic = () => (
   <Main title="Comic">
     <p>Comic</p>
-    <SelectableWords
+    <TranslateBubble
       text="Foo bar baz"
       onSelect={text => {
         console.log(text);
