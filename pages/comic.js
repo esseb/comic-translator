@@ -1,7 +1,7 @@
 import Main from "../layout/Main";
 
 const Comic = () => (
-  <Main>
+  <Main title="Comic">
     <p>Comic</p>
   </Main>
 );
