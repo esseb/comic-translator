@@ -1,7 +1,9 @@
+import Main from "../layout/Main";
+
 const Comic = () => (
-  <div>
+  <Main>
     <p>Comic</p>
-  </div>
+  </Main>
 );
 
 export default Comic;

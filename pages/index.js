@@ -1,13 +1,15 @@
 import Link from "next/link";
 
+import Main from "../layout/Main";
+
 const Index = () => (
-  <div>
+  <Main>
     <p>Index</p>
 
     <Link href="/comic">
       <a>Comic</a>
     </Link>
-  </div>
+  </Main>
 );
 
 export default Index;
