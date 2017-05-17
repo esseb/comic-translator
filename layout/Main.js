@@ -1,12 +1,19 @@
+// @flow
+
+import React from "react";
 import Head from "next/head";
 
-import { defaultFontSize } from "../variables/spacing";
 import { baseline } from "../variables/spacing";
 import { fontSizeDefault } from "../variables/typography";
 
 const APPLICATION_TITLE = "Comic Translator";
 
-export default props => (
+type Props = {
+  title?: string,
+  children?: React.Element<any>
+};
+
+const Main = (props: Props): React.Element<any> => (
   <div>
     <Head>
       <title>
@@ -45,3 +52,5 @@ export default props => (
     `}</style>
   </div>
 );
+
+export default Main;
