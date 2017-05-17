@@ -113,7 +113,7 @@ class SelectableWords extends Component {
       >
         {words.map((word, index) => [this.renderWord(word, index), " "])}
 
-        <style jsx global>{`
+        <style global jsx>{`
           .selectable-words {
             user-select: none;
           }

@@ -8,10 +8,14 @@ type Props = {
 
 const SpeechBubble = (props: Props) => (
   <div className="speech-bubble">
-    {props.children}
+    <div className="speech-bubble__content">{props.children}</div>
 
-    <style jsx global>{`
+    <style global jsx>{`
       .speech-bubble {
+        padding-bottom: 16px;
+      }
+
+      .speech-bubble__content {
         background-color: white;
         border-radius: 17px;
         border: 2px solid black;
@@ -19,8 +23,8 @@ const SpeechBubble = (props: Props) => (
         position: relative;
       }
 
-      .speech-bubble:before,
-      .speech-bubble:after {
+      .speech-bubble__content:before,
+      .speech-bubble__content:after {
         content: "";
         display: block;
         position: absolute;
@@ -28,13 +32,13 @@ const SpeechBubble = (props: Props) => (
         width: 0;
       }
 
-      .speech-bubble:before {
+      .speech-bubble__content:before {
         border-right: 14px solid transparent;
         border-top: 16px solid black;
         margin-left: 10px;
       }
 
-      .speech-bubble:after {
+      .speech-bubble__content:after {
         border-right: 14px solid transparent;
         border-top: 16px solid white;
         margin-left: 12px;
