@@ -1,6 +1,6 @@
 // @flow
 
-import React from "react";
+import type { Element } from "React";
 import Head from "next/head";
 
 import { baseline } from "../variables/spacing";
@@ -10,10 +10,10 @@ const APPLICATION_TITLE = "Comic Translator";
 
 type Props = {
   title?: string,
-  children?: React.Element<any>
+  children?: Element<any>
 };
 
-const Main = (props: Props): React.Element<any> => (
+const Main = (props: Props) => (
   <div>
     <Head>
       <title>

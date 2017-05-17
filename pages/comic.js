@@ -1,11 +1,17 @@
 // @flow
 
-import React from "react";
 import Main from "../layout/Main";
+import SelectableWords from "../components/SelectableWords";
 
-const Comic = (): React.Element<any> => (
+const Comic = () => (
   <Main title="Comic">
     <p>Comic</p>
+    <SelectableWords
+      text="Foo bar baz"
+      onSelect={text => {
+        console.log(text);
+      }}
+    />
   </Main>
 );
 

@@ -1,11 +1,10 @@
 // @flow
 
-import React from "react";
 import Link from "next/link";
 
 import Main from "../layout/Main";
 
-const Index = (): React.Element<any> => (
+const Index = () => (
   <Main>
     <p>Index</p>
 
