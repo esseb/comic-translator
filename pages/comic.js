@@ -126,22 +126,23 @@ class Comic extends Component {
           .comic-page {
             margin: 0 auto;
             max-width: 600px;
-            padding: ${baseline} 20px;
+            padding: ${baseline}px 20px;
           }
 
           .comic-page > h1 {
-            font-size: 30px;
+            font-size: 26px;
             font-weight: bold;
-            margin-bottom: ${baseline * 1}px;
-            margin-top: ${baseline * 2}px;
+            line-height: 30px;
+            margin-bottom: ${baseline}px;
           }
 
-          .comic-page__panel {
-            margin-top: ${baseline * 3}px;
+          .comic-page > a {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
           }
 
           .comic-page__bubble {
-            margin-bottom: ${baseline}px;
+            margin: ${baseline}px 0;
           }
         `}</style>
       </Main>
