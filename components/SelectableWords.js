@@ -3,6 +3,8 @@
 import { Component } from "react";
 import classNames from "classnames";
 
+const MOUSE_LEFT = 0;
+
 type Props = {
   text: string,
   onSelect: (text: string) => void
@@ -10,6 +12,8 @@ type Props = {
 
 type State = {
   isSelecting: boolean,
+  isSelectingUsingMouseEvents: boolean,
+  isSelectingUsingTouchEvents: boolean,
   selectionInitial: null | number,
   selectionStart: null | number,
   selectionEnd: null | number
@@ -24,13 +28,31 @@ class SelectableWords extends Component {
 
     this.state = {
       isSelecting: false,
+      isSelectingUsingMouseEvents: false,
+      isSelectingUsingTouchEvents: false,
       selectionInitial: null,
       selectionStart: null,
       selectionEnd: null
     };
   }
 
-  handleSelectStart(event: SyntheticInputEvent) {
+  handleSelectStart(event: SyntheticInputEvent | SyntheticTouchEvent) {
+    if (this.state.isSelecting === true) {
+      return;
+    }
+
+    if (event.type === "mousedown") {
+      // We only care about the left mouse button.
+      if (event.button !== MOUSE_LEFT) {
+        return;
+      }
+
+      // Do nothing if any modifiers were used.
+      if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) {
+        return;
+      }
+    }
+
     let index = event.target.dataset.wordIndex;
     if (typeof index === "undefined") {
       return;
@@ -39,18 +61,34 @@ class SelectableWords extends Component {
     index = parseInt(index, 10);
     this.setState({
       isSelecting: true,
+      isSelectingUsingMouseEvents: event.type === "mousedown",
+      isSelectingUsingTouchEvents: event.type === "touchstart",
       selectionInitial: index,
       selectionStart: index,
       selectionEnd: index
     });
   }
 
-  handleSelectMove(event: SyntheticInputEvent) {
+  handleSelectMove(event: SyntheticInputEvent | SyntheticTouchEvent) {
     if (this.state.isSelecting === false) {
       return;
     }
 
-    let index = event.target.dataset.wordIndex;
+    // We don't care about mouse events
+    // if the selection was started with a touch event.
+    if (this.state.isSelectingUsingTouchEvents && event.type === "mousedown") {
+      return;
+    }
+
+    const x = event.touches && event.touches.length
+      ? event.touches[0].clientX
+      : event.clientX;
+    const y = event.touches && event.touches.length
+      ? event.touches[0].clientY
+      : event.clientY;
+    const target = document.elementFromPoint(x, y);
+
+    let index = target.dataset.wordIndex;
     if (typeof index === "undefined") {
       return;
     }
@@ -64,9 +102,13 @@ class SelectableWords extends Component {
     });
   }
 
-  handleSelectEnd(event: SyntheticInputEvent) {
-    // If anything was selected,
-    // call the `onSelect` prop with the selected text.
+  handleSelectEnd(event: SyntheticInputEvent | SyntheticTouchEvent) {
+    if (this.state.isSelecting === false) {
+      return;
+    }
+
+    // Call the `onSelect` prop with the selected text
+    // if anything was selected.
     const words = this.props.text.split(/\s/);
     const { selectionStart, selectionEnd } = this.state;
     if (selectionStart !== null && selectionEnd !== null) {
@@ -76,6 +118,8 @@ class SelectableWords extends Component {
 
     this.setState({
       isSelecting: false,
+      isSelectingUsingMouseEvents: false,
+      isSelectingUsingTouchEvents: false,
       selectionInitial: null,
       selectionStart: null,
       selectionEnd: null
@@ -108,8 +152,11 @@ class SelectableWords extends Component {
       <div
         className="selectable-words"
         onMouseDown={this.handleSelectStart.bind(this)}
+        onTouchStart={this.handleSelectStart.bind(this)}
         onMouseMove={this.handleSelectMove.bind(this)}
+        onTouchMove={this.handleSelectMove.bind(this)}
         onMouseUp={this.handleSelectEnd.bind(this)}
+        onTouchEnd={this.handleSelectEnd.bind(this)}
       >
         {words.map((word, index) => [this.renderWord(word, index), " "])}
 
