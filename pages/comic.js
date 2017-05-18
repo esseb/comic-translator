@@ -31,7 +31,18 @@ class Comic extends Component {
   }
 
   handledSelectText(text: string) {
-    fetch(`/api/translate/${text}`)
+    fetch("/api/translate", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+        text: text,
+        from: "fr",
+        to: "en"
+      })
+    })
       .then(response => response.json())
       .then(response => {
         this.setState({

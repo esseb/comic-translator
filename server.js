@@ -1,6 +1,7 @@
 // @flow
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const next = require("next");
 const nconf = require("nconf");
 const MsTranslator = require("mstranslator");
@@ -17,9 +18,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 var msTranslatorClient = new MsTranslator(
-  {
-    api_key: nconf.get("MSTRANSLATOR_API_KEY")
-  },
+  { api_key: nconf.get("MSTRANSLATOR_API_KEY") },
   true
 );
 
@@ -27,12 +26,13 @@ app
   .prepare()
   .then(() => {
     const server = express();
+    server.use(bodyParser.json());
 
-    server.get("/api/translate/:text", (req, res) => {
+    server.post("/api/translate", (req, res) => {
       const params = {
-        text: req.params.text,
-        from: "fr",
-        to: "en"
+        text: req.body.text,
+        from: req.body.from,
+        to: req.body.to
       };
 
       msTranslatorClient.translate(params, (err, translation) => {
