@@ -32,6 +32,7 @@ class Comic extends Component {
 
   handledSelectText(text: string) {
     fetch("/api/translate", {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
