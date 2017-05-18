@@ -66,7 +66,10 @@ class Comic extends Component {
 
     return (
       <Main title={comic.title}>
-        <div className="comic-page">
+        <div
+          className="comic-page"
+          style={{ backgroundColor: comic.backgroundColor }}
+        >
           <h1>{comic.title}</h1>
           <a href={comic.url} target="_blank" rel="noopener">{comic.url}</a>
 
