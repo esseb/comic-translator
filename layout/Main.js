@@ -38,15 +38,18 @@ const Main = (props: Props) => (
       }
 
       * {
-        font-size: ${fontSizeDefault}px;
-        font-weight: normal;
-        line-height: ${baseline}px;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
         margin: 0;
         padding: 0;
       }
 
       body {
         font-family: Helvetica, Arial, sans-serif;
+        font-size: ${fontSizeDefault}px;
+        font-weight: normal;
+        line-height: ${baseline}px;
         margin: 0;
       }
     `}</style>

@@ -101,6 +101,7 @@ class Comic extends Component {
                 border: 0,
                 borderRadius: "5px",
                 bottom: "4vw",
+                fontFamily: "Courier, monospace",
                 left: "4vw",
                 outline: "none",
                 overflow: "auto",

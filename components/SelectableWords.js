@@ -162,6 +162,8 @@ class SelectableWords extends Component {
 
         <style global jsx>{`
           .selectable-words {
+            font-size: 18px;
+            line-height: 30px;
             user-select: none;
           }
 

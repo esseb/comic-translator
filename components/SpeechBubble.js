@@ -19,7 +19,7 @@ const SpeechBubble = (props: Props) => (
         background-color: white;
         border-radius: 17px;
         border: 2px solid black;
-        padding: 10px;
+        padding: 16px;
         position: relative;
       }
 
