@@ -14,7 +14,8 @@
     "flow": "flow",
     "test": "jest",
     "precommit": "lint-staged",
-    "deploy": "now -e MSTRANSLATOR_API_KEY=@mstranslator-api-key -e BASIC_AUTH_USERNAME=@basic-auth-username -e BASIC_AUTH_PASSWORD=@basic-auth-password"
+    "deploy": "now -e MSTRANSLATOR_API_KEY=@mstranslator-api-key -e BASIC_AUTH_USERNAME=@basic-auth-username -e BASIC_AUTH_PASSWORD=@basic-auth-password",
+    "alias": "now alias"
   },
   "lint-staged": {
     "*.js": [
