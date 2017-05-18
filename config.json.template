@@ -1,3 +1,5 @@
 {
-  "MSTRANSLATOR_API_KEY": "..."
+  "MSTRANSLATOR_API_KEY": "...",
+  "BASIC_AUTH_USERNAME": "...",
+  "BASIC_AUTH_PASSWORD": "..."
 }

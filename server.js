@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const basicAuthMiddleware = require("basicauth-middleware");
 const next = require("next");
 const nconf = require("nconf");
 const MsTranslator = require("mstranslator");
@@ -14,19 +15,29 @@ const dev = process.env.NODE_ENV !== "production";
 //   3. A file located at 'config.json'
 nconf.argv().env().file({ file: "./config.json" });
 
-const app = next({ dev });
-const handle = app.getRequestHandler();
-
 var msTranslatorClient = new MsTranslator(
   { api_key: nconf.get("MSTRANSLATOR_API_KEY") },
   true
 );
+
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
 app
   .prepare()
   .then(() => {
     const server = express();
     server.use(bodyParser.json());
+
+    // Set up basic auth if specified.
+    if (nconf.get("BASIC_AUTH_USERNAME") && nconf.get("BASIC_AUTH_PASSWORD")) {
+      server.use(
+        basicAuthMiddleware(
+          nconf.get("BASIC_AUTH_USERNAME"),
+          nconf.get("BASIC_AUTH_PASSWORD")
+        )
+      );
+    }
 
     server.post("/api/translate", (req, res) => {
       const params = {

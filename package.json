@@ -13,7 +13,8 @@
     "start": "NODE_ENV=production node server.js",
     "flow": "flow",
     "test": "jest",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "deploy": "now -e MSTRANSLATOR_API_KEY=@mstranslator-api-key -e BASIC_AUTH_USERNAME=@basic-auth-username -e BASIC_AUTH_PASSWORD=@basic-auth-password"
   },
   "lint-staged": {
     "*.js": [
@@ -22,6 +23,7 @@
     ]
   },
   "dependencies": {
+    "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.17.2",
     "classnames": "^2.2.5",
     "express": "^4.15.2",
