@@ -14,7 +14,7 @@ type Props = {
 };
 
 const Main = (props: Props) => (
-  <div>
+  <div className="main-layout">
     <Head>
       <title>
         {props.title
@@ -27,6 +27,16 @@ const Main = (props: Props) => (
     {props.children}
 
     <style jsx global>{`
+      html,
+      body,
+      body > div:first-of-type,
+      body > div:first-of-type > div:first-of-type,
+      body > div:first-of-type > div:first-of-type > div,
+      .main-layout {
+        height: 100%;
+        min-height: 100%;
+      }
+
       html {
         box-sizing: border-box;
       }
