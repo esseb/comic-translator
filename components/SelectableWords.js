@@ -22,6 +22,10 @@ type State = {
 class SelectableWords extends Component {
   props: Props;
   state: State;
+  handleSelectStart: Function;
+  handleSelectMove: Function;
+  handleSelectEnd: Function;
+  _wordElements: Array<HTMLElement>;
 
   constructor(props: Props) {
     super(props);
@@ -34,14 +38,46 @@ class SelectableWords extends Component {
       selectionStart: null,
       selectionEnd: null
     };
+
+    this.handleSelectStart = this.handleSelectStart.bind(this);
+    this.handleSelectMove = this.handleSelectMove.bind(this);
+    this.handleSelectEnd = this.handleSelectEnd.bind(this);
+
+    this._wordElements = [];
   }
 
-  handleSelectStart(event: SyntheticInputEvent | SyntheticTouchEvent) {
+  componentDidMount() {
+    document.addEventListener("touchstart", this.handleSelectStart, {
+      passive: false
+    });
+    document.addEventListener("touchmove", this.handleSelectMove, {
+      passive: false
+    });
+    document.addEventListener("touchend", this.handleSelectEnd, {
+      passive: false
+    });
+
+    document.addEventListener("mousedown", this.handleSelectStart);
+    document.addEventListener("mousemove", this.handleSelectMove);
+    document.addEventListener("mouseup", this.handleSelectEnd);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("touchstart", this.handleSelectStart);
+    document.removeEventListener("touchend", this.handleSelectMove);
+    document.removeEventListener("touchmove", this.handleSelectEnd);
+
+    document.removeEventListener("mousedown", this.handleSelectStart);
+    document.removeEventListener("mouseup", this.handleSelectMove);
+    document.removeEventListener("mousemove", this.handleSelectEnd);
+  }
+
+  handleSelectStart(event: MouseEvent | TouchEvent) {
     if (this.state.isSelecting === true) {
       return;
     }
 
-    if (event.type === "mousedown") {
+    if (event instanceof MouseEvent) {
       // We only care about the left mouse button.
       if (event.button !== MOUSE_LEFT) {
         return;
@@ -53,23 +89,27 @@ class SelectableWords extends Component {
       }
     }
 
-    let index = event.target.dataset.wordIndex;
-    if (typeof index === "undefined") {
+    const target = getElementFromEventPosition(event);
+    if (target === null) {
       return;
     }
 
-    index = parseInt(index, 10);
+    const wordIndex = this._wordElements.findIndex(word => word === target);
+    if (wordIndex === -1) {
+      return;
+    }
+
     this.setState({
       isSelecting: true,
       isSelectingUsingMouseEvents: event.type === "mousedown",
       isSelectingUsingTouchEvents: event.type === "touchstart",
-      selectionInitial: index,
-      selectionStart: index,
-      selectionEnd: index
+      selectionInitial: wordIndex,
+      selectionStart: wordIndex,
+      selectionEnd: wordIndex
     });
   }
 
-  handleSelectMove(event: SyntheticInputEvent | SyntheticTouchEvent) {
+  handleSelectMove(event: MouseEvent | TouchEvent) {
     if (this.state.isSelecting === false) {
       return;
     }
@@ -80,30 +120,35 @@ class SelectableWords extends Component {
       return;
     }
 
-    const x = event.touches && event.touches.length
-      ? event.touches[0].clientX
-      : event.clientX;
-    const y = event.touches && event.touches.length
-      ? event.touches[0].clientY
-      : event.clientY;
-    const target = document.elementFromPoint(x, y);
+    // Prevent text selection.
+    event.preventDefault();
 
-    let index = target.dataset.wordIndex;
-    if (typeof index === "undefined") {
+    const target = getElementFromEventPosition(event);
+    if (target === null) {
       return;
     }
 
-    index = parseInt(index, 10);
+    const wordIndex = this._wordElements.findIndex(word => word === target);
+    if (wordIndex === -1) {
+      return;
+    }
+
     const { selectionInitial } = this.state;
 
     this.setState({
-      selectionStart: Math.min(selectionInitial || 0, index),
-      selectionEnd: Math.max(selectionInitial || 0, index)
+      selectionStart: Math.min(selectionInitial || 0, wordIndex),
+      selectionEnd: Math.max(selectionInitial || 0, wordIndex)
     });
   }
 
-  handleSelectEnd(event: SyntheticInputEvent | SyntheticTouchEvent) {
+  handleSelectEnd(event: MouseEvent | TouchEvent) {
     if (this.state.isSelecting === false) {
+      return;
+    }
+
+    // We don't care about mouse events
+    // if the selection was started with a touch event.
+    if (this.state.isSelectingUsingTouchEvents && event.type === "mousedown") {
       return;
     }
 
@@ -142,22 +187,23 @@ class SelectableWords extends Component {
       "selectable-words__word--selection-end": index === selectionEnd
     });
 
-    return <span className={classes} data-word-index={index}>{word}</span>;
+    return (
+      <span
+        className={classes}
+        ref={ref => {
+          this._wordElements[index] = ref;
+        }}
+      >
+        {word}
+      </span>
+    );
   }
 
   render() {
     const words = this.props.text.split(/\s/);
 
     return (
-      <div
-        className="selectable-words"
-        onMouseDown={this.handleSelectStart.bind(this)}
-        onTouchStart={this.handleSelectStart.bind(this)}
-        onMouseMove={this.handleSelectMove.bind(this)}
-        onTouchMove={this.handleSelectMove.bind(this)}
-        onMouseUp={this.handleSelectEnd.bind(this)}
-        onTouchEnd={this.handleSelectEnd.bind(this)}
-      >
+      <div className="selectable-words">
         {words.map((word, index) => [this.renderWord(word, index), " "])}
 
         <style global jsx>{`
@@ -174,40 +220,53 @@ class SelectableWords extends Component {
             z-index: 0;
           }
 
-          .selectable-words__word--selection {
-            background-color: powderblue;
-          }
-
-          .selectable-words__word--selection:before,
-          .selectable-words__word--selection:after {
+          .selectable-words__word--selection:before {
             background-color: powderblue;
             bottom: 0;
             content: "";
             display: block;
-            position: absolute;
-            top: 0;
-            width: 3px;
-          }
-
-          .selectable-words__word--selection:before {
             left: -3px;
-          }
-
-          .selectable-words__word--selection:after {
+            position: absolute;
             right: -3px;
+            top: 0;
+            z-index: -1;
           }
 
           .selectable-words__word--selection-start:before {
-            border-radius: 50% 0 0 50%;
+            border-radius: 3px 0 0 3px;
           }
 
-          .selectable-words__word--selection-end:after {
-            border-radius: 0 50% 50% 0;
+          .selectable-words__word--selection-end:before {
+            border-radius: 0 3px 3px 0;
+          }
+
+          .selectable-words__word--selection-start.selectable-words__word--selection-end:before {
+            border-radius: 3px 3px 3px 3px;
           }
         `}</style>
       </div>
     );
   }
+}
+
+function getElementFromEventPosition(
+  event: MouseEvent | TouchEvent
+): HTMLElement | null {
+  if (event instanceof MouseEvent) {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    return document.elementFromPoint(x, y);
+  }
+
+  if (event instanceof TouchEvent) {
+    const x = event.touches[0].clientX;
+    const y = event.touches[0].clientY;
+
+    return document.elementFromPoint(x, y);
+  }
+
+  return null;
 }
 
 export default SelectableWords;

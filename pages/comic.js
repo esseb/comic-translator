@@ -31,6 +31,7 @@ class Comic extends Component {
   }
 
   handledSelectText(text: string) {
+    // TODO(esseb): Only allow one fetch request at a time.
     fetch("/api/translate", {
       credentials: "include",
       headers: {
@@ -54,6 +55,8 @@ class Comic extends Component {
   }
 
   closeDialog() {
+    // TODO(esseb): Clear the selected text after closing the dialog,
+    //   not before as we do now.
     this.setState({
       originalText: null,
       translatedText: null
@@ -81,18 +84,14 @@ class Comic extends Component {
               {comic.url}
             </a>
 
-            {panels.map((panel, index) => (
-              <div key={index} className="comic-page__panel">
-                {panel.bubbles.map((bubble, index) => (
-                  <div key={index} className="comic-page__bubble">
-                    <TranslateBubble
-                      text={bubble.text}
-                      onSelect={this.handledSelectText}
-                    />
-                  </div>
-                ))}
+            <div className="comic-page__panel">
+              <div className="comic-page__bubble">
+                <TranslateBubble
+                  text={panels[0].bubbles[0].text}
+                  onSelect={this.handledSelectText}
+                />
               </div>
-            ))}
+            </div>
 
             <ReactModal
               isOpen={Boolean(this.state.translatedText)}
@@ -136,6 +135,10 @@ class Comic extends Component {
         </div>
 
         <style global jsx>{`
+          .comic-page {
+            min-height: 100%;
+          }
+
           .comic-page__content {
             margin: 0 auto;
             max-width: 600px;
