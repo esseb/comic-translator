@@ -99,6 +99,9 @@ class SelectableWords extends Component {
       return;
     }
 
+    // Prevent text selection.
+    event.preventDefault();
+
     this.setState({
       isSelecting: true,
       isSelectingUsingMouseEvents: event.type === "mousedown",
