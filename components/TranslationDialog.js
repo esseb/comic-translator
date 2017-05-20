@@ -5,7 +5,7 @@ import ReactAriaModal from "react-aria-modal";
 import classNames from "classnames";
 import { baseline } from "../variables/spacing";
 
-function getApplicationNode(): HTMLElement {
+function getApplicationNode(): HTMLElement | null {
   return document.querySelector("#__next");
 }
 
@@ -106,7 +106,7 @@ class TranslationDialog extends Component {
           this.props.originalText !== null && this.props.translatedText !== null
         }
         titleText="Translation"
-        getApplicationNode={this.getApplicationNode}
+        getApplicationNode={getApplicationNode}
         verticallyCenter={true}
         initialFocus="#translation-dialog"
         dialogId="translation-dialog"
