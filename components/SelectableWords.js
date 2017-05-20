@@ -211,8 +211,8 @@ class SelectableWords extends Component {
 
         <style global jsx>{`
           .selectable-words {
-            font-size: 18px;
-            line-height: 30px;
+            font-size: 24px;
+            line-height: 34px;
             user-select: none;
           }
 
@@ -225,13 +225,13 @@ class SelectableWords extends Component {
 
           .selectable-words__word--selection:before {
             background-color: powderblue;
-            bottom: 0;
+            bottom: 1px;
             content: "";
             display: block;
-            left: -3px;
+            left: -4px;
             position: absolute;
-            right: -3px;
-            top: 0;
+            right: -4px;
+            top: 1px;
             z-index: -1;
           }
 
