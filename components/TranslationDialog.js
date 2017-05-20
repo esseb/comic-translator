@@ -20,8 +20,16 @@ type Props = {
   translatedText: string | null
 };
 
+type State = {
+  isEntering: boolean,
+  hasEntered: boolean,
+  isExiting: boolean,
+  hasExited: boolean
+};
+
 class TranslationDialog extends Component {
   props: Props;
+  state: State;
   handleModalEnter: Function;
   handleModalExit: Function;
 
@@ -40,20 +48,22 @@ class TranslationDialog extends Component {
   }
 
   handleModalEnter() {
-    this.setState({ isEntering: true }, () => {
-      window.requestAnimationFrame(() => {
-        this.setState({ hasEntered: true });
+    window.requestAnimationFrame(() => {
+      this.setState({ isEntering: true }, () => {
+        window.requestAnimationFrame(() => {
+          this.setState({ hasEntered: true });
 
-        const maxAnimationDuration = Math.max(
-          ENTER_ANIMATION_DURATION_OVERLAY,
-          ENTER_ANIMATION_DURATION_DIALOG
-        );
+          const maxAnimationDuration = Math.max(
+            ENTER_ANIMATION_DURATION_OVERLAY,
+            ENTER_ANIMATION_DURATION_DIALOG
+          );
 
-        // Wait for the entering animation to finish
-        // before resetting the entering state.
-        setTimeout(() => {
-          this.setState({ isEntering: false });
-        }, maxAnimationDuration);
+          // Wait for the entering animation to finish
+          // before resetting the entering state.
+          setTimeout(() => {
+            this.setState({ isEntering: false });
+          }, maxAnimationDuration);
+        });
       });
     });
   }
