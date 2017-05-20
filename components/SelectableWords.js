@@ -183,16 +183,14 @@ class SelectableWords extends Component {
       selected = index >= selectionStart && index <= selectionEnd;
     }
 
-    const classes = classNames({
-      "selectable-words__word": true,
-      "selectable-words__word--selection": selected,
-      "selectable-words__word--selection-start": index === selectionStart,
-      "selectable-words__word--selection-end": index === selectionEnd
-    });
-
     return (
       <span
-        className={classes}
+        className={classNames({
+          "selectable-words__word": true,
+          "selectable-words__word--selection": selected,
+          "selectable-words__word--selection-start": index === selectionStart,
+          "selectable-words__word--selection-end": index === selectionEnd
+        })}
         ref={ref => {
           this._wordElements[index] = ref;
         }}
