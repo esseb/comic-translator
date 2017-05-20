@@ -154,6 +154,11 @@ class TranslationDialog extends Component {
             background-color: transparent !important; /* Override the inline style set by react-aria-modal */
           }
 
+          .translation-dialog__dialog {
+            max-width: 600px !important;  /* Override the inline style set by react-aria-modal */
+            width: 100%;
+          }
+
           .translation-dialog__content {
             background-color: white;
             border-radius: 5px;
