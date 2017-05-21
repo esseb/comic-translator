@@ -2,7 +2,8 @@
 
 import { Component } from "react";
 import slugify from "slugify";
-import { Link } from "../routes";
+import classNames from "classnames";
+import { Router, Link } from "../routes";
 import Main from "../layout/Main";
 import TranslateBubble from "../components/TranslateBubble";
 import TranslationDialog from "../components/TranslationDialog";
@@ -74,7 +75,7 @@ class Comic extends Component {
     });
   }
 
-  renderBubbleLink(direction: "previous" | "next") {
+  renderNavigationButton(direction: "previous" | "next") {
     let {
       comicId,
       pageId = 0,
@@ -127,18 +128,24 @@ class Comic extends Component {
     }
 
     return (
-      <Link
-        route="bubble"
-        params={{
-          slug: slugify(comic.title).toLowerCase(),
-          comicId: comicId,
-          pageId: bubbleLink.pageId,
-          panelId: bubbleLink.panelId,
-          bubbleId: bubbleLink.bubbleId
+      <button
+        className={classNames({
+          "comic-page__navigation-button": true,
+          "comic-page__navigation-button--previous": direction === "previous",
+          "comic-page__navigation-button--next": direction === "next"
+        })}
+        onClick={() => {
+          Router.replaceRoute("bubble", {
+            slug: slugify(comic.title).toLowerCase(),
+            comicId: comicId,
+            pageId: bubbleLink.pageId,
+            panelId: bubbleLink.panelId,
+            bubbleId: bubbleLink.bubbleId
+          });
         }}
       >
-        <a>{bubbleLabel}</a>
-      </Link>
+        {bubbleLabel}
+      </button>
     );
   }
 
@@ -164,28 +171,28 @@ class Comic extends Component {
           className="comic-page"
           style={{ backgroundColor: comic.backgroundColor }}
         >
-          <div className="comic-page__content">
-            <h1 className="comic-page__heading">{comic.title}</h1>
-            <a
-              className="comic-page__link"
-              href={comic.url}
-              target="_blank"
-              rel="noopener"
-            >
-              {comic.url}
-            </a>
+          <div className="comic-page__header">
+            <Link route="index">
+              <a className="comic-page__home-link">⬅</a>
+            </Link>
 
-            <div className="comic-page__panel">
-              <div className="comic-page__bubble">
-                <TranslateBubble
-                  text={bubble.text}
-                  onSelect={this.handledSelectText}
-                />
-              </div>
+            <h1 className="comic-page__heading">
+              <a href={comic.url} target="_blank" rel="noopener">
+                {comic.title}
+              </a>
+            </h1>
+          </div>
+
+          <div className="comic-page__body">
+            {this.renderNavigationButton("previous")}
+            {this.renderNavigationButton("next")}
+
+            <div className="comic-page__bubble">
+              <TranslateBubble
+                text={bubble.text}
+                onSelect={this.handledSelectText}
+              />
             </div>
-
-            <p>{this.renderBubbleLink("previous")}</p>
-            <p>{this.renderBubbleLink("next")}</p>
 
             <TranslationDialog
               originalText={this.state.originalText}
@@ -201,29 +208,78 @@ class Comic extends Component {
 
         <style global jsx>{`
           .comic-page {
+            display: flex;
+            flex-direction: column;
             min-height: 100%;
           }
 
-          .comic-page__content {
-            margin: 0 auto;
-            max-width: 600px;
-            padding: ${baseline}px 20px;
+          .comic-page__header {
+            background-color: white;
+          }
+
+          .comic-page__body {
+            align-items: center;
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            padding: 0 20px;
+            position: relative;
+          }
+
+          .comic-page__home-link {
+            color: inherit;
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            left: 0;
+            line-height: 36px;
+            padding: 7px 5px 0 5px;
+            position: absolute;
+            text-decoration: none;
+            top: 0;
           }
 
           .comic-page__heading {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: bold;
-            line-height: 30px;
-            margin-bottom: ${baseline}px;
+            line-height: 36px;
+            margin: 0;
+            text-align: center;
           }
 
-          .comic-page__link {
-            overflow-wrap: break-word;
-            word-wrap: break-word;
+          .comic-page__heading > a {
+            border-bottom: 2px solid black;
+            color: inherit;
+            display: block;
+            padding-bottom: 5px;
+            padding-left: 36px;
+            padding-right: 36px;
+            padding-top: 5px;
+            text-decoration: none;
+          }
+
+          .comic-page__navigation-button {
+            background-color: transparent;
+            border: 0;
+            bottom: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            width: 50%;
+          }
+
+          .comic-page__navigation-button--previous {
+            left: 0;
+          }
+
+          .comic-page__navigation-button--next {
+            right: 0;
           }
 
           .comic-page__bubble {
-            margin: ${baseline}px 0;
+            margin: 0 auto;
+            max-width: 600px;
+            min-width: 100px;
           }
         `}</style>
       </Main>

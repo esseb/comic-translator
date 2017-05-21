@@ -1,6 +1,7 @@
 const nextRoutes = require("next-routes");
 const routes = (module.exports = nextRoutes());
 
+routes.add("index", "/");
 routes.add("comic", "/comic/:comicId-:slug");
 routes.add(
   "bubble",

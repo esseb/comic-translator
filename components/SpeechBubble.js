@@ -21,6 +21,7 @@ const SpeechBubble = (props: Props) => (
         border: 2px solid black;
         padding: 16px;
         position: relative;
+        text-align: center;
       }
 
       .speech-bubble__content:before,
