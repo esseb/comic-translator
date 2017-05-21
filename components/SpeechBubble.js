@@ -12,7 +12,7 @@ const SpeechBubble = (props: Props) => (
 
     <style global jsx>{`
       .speech-bubble {
-        padding-bottom: 16px;
+        padding: 16px 0;
       }
 
       .speech-bubble__content {
