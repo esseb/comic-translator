@@ -1,5 +1,6 @@
 [ignore]
 .*/node_modules/babel-plugin-transform-react-remove-prop-types/src/index.js
+.*/node_modules/nock/node_modules/changelog/examples/node.json
 
 [include]
 

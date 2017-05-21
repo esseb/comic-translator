@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "flow": "flow",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "precommit": "lint-staged",
     "deploy": "now -e MSTRANSLATOR_API_KEY=@mstranslator-api-key -e BASIC_AUTH_USERNAME=@basic-auth-username -e BASIC_AUTH_PASSWORD=@basic-auth-password",
     "alias": "now alias"
@@ -32,6 +32,7 @@
     "mstranslator": "^2.1.2",
     "nconf": "^0.8.4",
     "next": "^2.3.1",
+    "nock": "^9.0.13",
     "react": "^15.5.4",
     "react-aria-modal": "^2.6.0",
     "react-dom": "^15.5.4"
