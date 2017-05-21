@@ -6,11 +6,20 @@ import { Link } from "../routes";
 import Main from "../layout/Main";
 import TranslateBubble from "../components/TranslateBubble";
 import TranslationDialog from "../components/TranslationDialog";
+import Loader from "../components/Loader";
 import translate from "../lib/translate";
 import { baseline } from "../variables/spacing";
 import comics from "../static/comics.json";
 
+// How long to delay, in ms, before showing the loading animation
+// to show that we're waiting for the translation request to finish.
+// We don't want to show this immediately because it looks a bit ugly
+// if it appears and disappears immediately.
+const TRANSLATING_LOADING_ANIMATION_DELAY = 500;
+
 type State = {
+  isTranslating: boolean,
+  showTranslationAnimation: boolean,
   originalText: null | string,
   translatedText: null | string
 };
@@ -24,6 +33,8 @@ class Comic extends Component {
     super(props);
 
     this.state = {
+      isTranslating: false,
+      showTranslationAnimation: false,
       originalText: null,
       translatedText: null
     };
@@ -33,10 +44,21 @@ class Comic extends Component {
   }
 
   handledSelectText(text: string) {
+    this.setState({
+      isTranslating: true,
+      showTranslationAnimation: false
+    });
+
+    setTimeout(() => {
+      this.setState({ showTranslationAnimation: true });
+    }, TRANSLATING_LOADING_ANIMATION_DELAY);
+
     // TODO(esseb): Only allow one pending translation at a time.
     // TODO(esseb): Handle error - show error dialog.
     translate({ from: "fr", to: "en", text: text }).then(translation => {
       this.setState({
+        isTranslating: false,
+        showTranslationAnimation: false,
         originalText: text,
         translatedText: translation
       });
@@ -170,6 +192,10 @@ class Comic extends Component {
               translatedText={this.state.translatedText}
               onClose={this.closeTranslationDialog}
             />
+
+            {this.state.isTranslating && this.state.showTranslationAnimation
+              ? <Loader />
+              : null}
           </div>
         </div>
 
