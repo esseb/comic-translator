@@ -10,29 +10,19 @@ const Index = () => (
     <h1>Index</h1>
 
     <ul>
-      <li>
-        <Link
-          route="comic"
-          params={{ slug: slugify(comics[0].title).toLowerCase(), comicId: 0 }}
-        >
-          <a>Comic</a>
-        </Link>
-      </li>
-
-      <li>
-        <Link
-          route="bubble"
-          params={{
-            slug: slugify(comics[0].title).toLowerCase(),
-            comicId: 0,
-            pageId: 0,
-            panelId: 0,
-            bubbleId: 1
-          }}
-        >
-          <a>comic 0, page 0, panel 0, bubble 1</a>
-        </Link>
-      </li>
+      {comics.map((comic, index) => (
+        <li key={index}>
+          <Link
+            route="comic"
+            params={{
+              slug: slugify(comic.title).toLowerCase(),
+              comicId: index
+            }}
+          >
+            <a>{comic.title}</a>
+          </Link>
+        </li>
+      ))}
     </ul>
   </Main>
 );

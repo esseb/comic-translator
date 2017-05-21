@@ -154,5 +154,112 @@
         ]
       }
     ]
+  },
+  {
+    "title": "Spirou à Moscou",
+    "author": "Tome & Janry",
+    "artist": "Tome & Janry",
+    "url": "https://fr.wikipedia.org/wiki/Spirou_%C3%A0_Moscou",
+    "color": "#af2a2a",
+    "pages": [
+      {
+        "panels": [
+          {
+            "bubbles": [
+              {
+                "text": "Aéroport Charles-de-Gaulle début novembre. L'époque ideale pour partir en vacances dans l'hemisphère sud..."
+              },
+              {
+                "text": "Allô, colonel? Ici, Charbonnier. Nous les avons trouvés!"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Dèparts"
+              },
+              {
+                "text": "\"Ils\" s'apprêtent à quitter le territoire. Un vol Paris-Papeete. \"Ils\" sont à l'embarquement!"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Faites pour un mieux Charbon. Discrètement."
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Je vous rejoins dans une heure à l'aéroport. Le temps de prévenir Moscou."
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Attention... Attention... Messieurs Spirou et Fantasio sont pries de se presenter à la salle de transit. Colour \"S\", porte 25. Je répète..."
+              },
+              {
+                "text": "C'est pour nous! Qu'est ce que...?!"
+              },
+              {
+                "text": "On verra bien, c'est par là"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Porte 24. C'est ici."
+              },
+              {
+                "text": "Zut! La lumiere est morte!"
+              },
+              {
+                "text": "Clic"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "C'est bizarre. Il doit s'agir d'une erreur."
+              },
+              {
+                "text": "Attends, j'ai un briquet."
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Allô, l'embarquement?"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "On me prie de vous signaler un changement de derniere minute pour deux voyageurs, prévus pour le vol vers tahiti..."
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "C'est bien ça, deux annulations...."
+              },
+              {
+                "text": "Messieurs Spirou et Fantasio"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
