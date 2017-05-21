@@ -1,10 +1,10 @@
 // @flow
 
 import { Component } from "react";
-import fetch from "isomorphic-unfetch";
 import Main from "../layout/Main";
 import TranslateBubble from "../components/TranslateBubble";
 import TranslationDialog from "../components/TranslationDialog";
+import translate from "../lib/translate";
 import { baseline } from "../variables/spacing";
 import comics from "../static/comics.json";
 
@@ -31,29 +31,14 @@ class Comic extends Component {
   }
 
   handledSelectText(text: string) {
-    // TODO(esseb): Only allow one fetch request at a time.
+    // TODO(esseb): Only allow one pending translation at a time.
     // TODO(esseb): Handle error - show error dialog.
-    // TODO(esseb): Cache responses locally.
-    fetch("/api/translate", {
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({
-        text: text,
-        from: "fr",
-        to: "en"
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        this.setState({
-          originalText: text,
-          translatedText: response.translation
-        });
+    translate({ from: "fr", to: "en", text: text }).then(translation => {
+      this.setState({
+        originalText: text,
+        translatedText: translation
       });
+    });
   }
 
   closeTranslationDialog() {
