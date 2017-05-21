@@ -75,7 +75,7 @@ class Comic extends Component {
     });
   }
 
-  renderNavigationButton(direction: "previous" | "next") {
+  switchBubble(direction: "previous" | "next") {
     let {
       comicId,
       pageId = 0,
@@ -89,6 +89,7 @@ class Comic extends Component {
     bubbleId = parseInt(bubbleId, 10);
 
     const comic = comics[comicId];
+    const slug = slugify(comic.title).toLowerCase();
 
     // Collect all the bubbles with relevant route ids in a single list.
     const bubbleList = [];
@@ -109,44 +110,33 @@ class Comic extends Component {
       );
     });
 
-    // Decide which bubble we should link to.
-    let bubbleLink = null;
-    let bubbleLabel = null;
-
     if (direction === "previous" && currentBubbleIndex > 0) {
-      bubbleLink = bubbleList[currentBubbleIndex - 1];
-      bubbleLabel = "Previous bubble";
+      const previousBubble = bubbleList[currentBubbleIndex - 1];
+
+      Router.replaceRoute("bubble", {
+        slug: slug,
+        comicId: comicId,
+        pageId: previousBubble.pageId,
+        panelId: previousBubble.panelId,
+        bubbleId: previousBubble.bubbleId
+      });
+
+      return;
     }
 
     if (direction === "next" && currentBubbleIndex < bubbleList.length - 1) {
-      bubbleLink = bubbleList[currentBubbleIndex + 1];
-      bubbleLabel = "Next bubble";
-    }
+      const nextBubble = bubbleList[currentBubbleIndex + 1];
 
-    if (bubbleLink === null || bubbleLabel === null) {
-      return null;
-    }
+      Router.replaceRoute("bubble", {
+        slug: slug,
+        comicId: comicId,
+        pageId: nextBubble.pageId,
+        panelId: nextBubble.panelId,
+        bubbleId: nextBubble.bubbleId
+      });
 
-    return (
-      <button
-        className={classNames({
-          "comic-page__navigation-button": true,
-          "comic-page__navigation-button--previous": direction === "previous",
-          "comic-page__navigation-button--next": direction === "next"
-        })}
-        onClick={() => {
-          Router.replaceRoute("bubble", {
-            slug: slugify(comic.title).toLowerCase(),
-            comicId: comicId,
-            pageId: bubbleLink.pageId,
-            panelId: bubbleLink.panelId,
-            bubbleId: bubbleLink.bubbleId
-          });
-        }}
-      >
-        {bubbleLabel}
-      </button>
-    );
+      return;
+    }
   }
 
   render() {
@@ -181,8 +171,29 @@ class Comic extends Component {
           </div>
 
           <div className="comic-page__body">
-            {this.renderNavigationButton("previous")}
-            {this.renderNavigationButton("next")}
+            <button
+              className={classNames(
+                "comic-page__navigation-button",
+                "comic-page__navigation-button--previous"
+              )}
+              onClick={() => {
+                this.switchBubble("previous");
+              }}
+            >
+              Previous bubble
+            </button>
+
+            <button
+              className={classNames(
+                "comic-page__navigation-button",
+                "comic-page__navigation-button--next"
+              )}
+              onClick={() => {
+                this.switchBubble("next");
+              }}
+            >
+              Next bubble
+            </button>
 
             <div className="comic-page__bubble">
               <TranslateBubble
