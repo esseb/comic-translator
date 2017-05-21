@@ -55,6 +55,11 @@ const Main = (props: Props) => (
         padding: 0;
       }
 
+      ol,
+      ul {
+        padding-left: 20px;
+      }
+
       body {
         font-family: Helvetica, Arial, sans-serif;
         font-size: ${fontSizeDefault}px;

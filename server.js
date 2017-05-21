@@ -6,8 +6,7 @@ const basicAuthMiddleware = require("basicauth-middleware");
 const next = require("next");
 const nconf = require("nconf");
 const MsTranslator = require("mstranslator");
-
-const dev = process.env.NODE_ENV !== "production";
+const routes = require("./routes");
 
 // Setup nconf to use (in-order):
 //   1. Command-line arguments
@@ -15,13 +14,15 @@ const dev = process.env.NODE_ENV !== "production";
 //   3. A file located at 'config.json'
 nconf.argv().env().file({ file: "./config.json" });
 
+const dev = nconf.get("NODE_ENV") !== "production";
+
 var msTranslatorClient = new MsTranslator(
   { api_key: nconf.get("MSTRANSLATOR_API_KEY") },
   true
 );
 
 const app = next({ dev });
-const handle = app.getRequestHandler();
+const handler = routes.getRequestHandler(app);
 
 app
   .prepare()
@@ -54,7 +55,7 @@ app
     });
 
     server.get("*", (req, res) => {
-      return handle(req, res);
+      return handler(req, res);
     });
 
     server.listen(3000, err => {

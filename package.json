@@ -32,10 +32,12 @@
     "mstranslator": "^2.1.2",
     "nconf": "^0.8.4",
     "next": "^2.3.1",
+    "next-routes": "^1.0.25",
     "nock": "^9.0.13",
     "react": "^15.5.4",
     "react-aria-modal": "^2.6.0",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "slug": "^0.9.1"
   },
   "devDependencies": {
     "enzyme": "^2.8.2",
