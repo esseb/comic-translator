@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from "react";
-import slug from "slug";
+import slugify from "slugify";
 import { Link } from "../routes";
 import Main from "../layout/Main";
 import TranslateBubble from "../components/TranslateBubble";
@@ -130,7 +130,7 @@ class Comic extends Component {
       <Link
         route="bubble"
         params={{
-          slug: slug(comic.title, { lower: true }),
+          slug: slugify(comic.title).toLowerCase(),
           comicId: comicId,
           pageId: bubbleLink.pageId,
           panelId: bubbleLink.panelId,

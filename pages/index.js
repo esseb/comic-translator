@@ -1,6 +1,6 @@
 // @flow
 
-import slug from "slug";
+import slugify from "slugify";
 import { Link } from "../routes";
 import Main from "../layout/Main";
 import comics from "../static/comics.json";
@@ -13,7 +13,7 @@ const Index = () => (
       <li>
         <Link
           route="comic"
-          params={{ slug: slug(comics[0].title, { lower: true }), comicId: 0 }}
+          params={{ slug: slugify(comics[0].title).toLowerCase(), comicId: 0 }}
         >
           <a>Comic</a>
         </Link>
@@ -23,7 +23,7 @@ const Index = () => (
         <Link
           route="bubble"
           params={{
-            slug: slug(comics[0].title, { lower: true }),
+            slug: slugify(comics[0].title).toLowerCase(),
             comicId: 0,
             pageId: 0,
             panelId: 0,
