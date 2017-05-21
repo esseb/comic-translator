@@ -17,7 +17,7 @@ const SpeechBubble = (props: Props) => (
 
       .speech-bubble__content {
         background-color: white;
-        border-radius: 17px;
+        border-radius: 30px;
         border: 2px solid black;
         padding: 16px;
         position: relative;
@@ -33,15 +33,15 @@ const SpeechBubble = (props: Props) => (
       }
 
       .speech-bubble__content:before {
-        border-right: 14px solid transparent;
-        border-top: 16px solid black;
-        margin-left: 10px;
+        border-right: 18px solid transparent;
+        border-top: 20px solid black;
+        margin-left: 24px;
       }
 
       .speech-bubble__content:after {
-        border-right: 14px solid transparent;
-        border-top: 16px solid white;
-        margin-left: 12px;
+        border-right: 18px solid transparent;
+        border-top: 20px solid white;
+        margin-left: 26px;
         margin-top: -5px;
       }
     `}</style>
