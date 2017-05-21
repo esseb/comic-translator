@@ -32,6 +32,7 @@ class Comic extends Component {
 
   handledSelectText(text: string) {
     // TODO(esseb): Only allow one fetch request at a time.
+    // TODO(esseb): Handle error - show error dialog.
     // TODO(esseb): Cache responses locally.
     fetch("/api/translate", {
       credentials: "include",

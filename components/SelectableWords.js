@@ -14,7 +14,6 @@ type State = {
   isSelecting: boolean,
   isSelectingUsingMouseEvents: boolean,
   isSelectingUsingTouchEvents: boolean,
-  selectionInitial: null | number,
   selectionStart: null | number,
   selectionEnd: null | number
 };
@@ -34,7 +33,6 @@ class SelectableWords extends Component {
       isSelecting: false,
       isSelectingUsingMouseEvents: false,
       isSelectingUsingTouchEvents: false,
-      selectionInitial: null,
       selectionStart: null,
       selectionEnd: null
     };
@@ -106,7 +104,6 @@ class SelectableWords extends Component {
       isSelecting: true,
       isSelectingUsingMouseEvents: event.type === "mousedown",
       isSelectingUsingTouchEvents: event.type === "touchstart",
-      selectionInitial: wordIndex,
       selectionStart: wordIndex,
       selectionEnd: wordIndex
     });
@@ -136,12 +133,7 @@ class SelectableWords extends Component {
       return;
     }
 
-    const { selectionInitial } = this.state;
-
-    this.setState({
-      selectionStart: Math.min(selectionInitial || 0, wordIndex),
-      selectionEnd: Math.max(selectionInitial || 0, wordIndex)
-    });
+    this.setState({ selectionEnd: wordIndex });
   }
 
   handleSelectEnd(event: MouseEvent | TouchEvent) {
@@ -168,7 +160,6 @@ class SelectableWords extends Component {
       isSelecting: false,
       isSelectingUsingMouseEvents: false,
       isSelectingUsingTouchEvents: false,
-      selectionInitial: null,
       selectionStart: null,
       selectionEnd: null
     });
