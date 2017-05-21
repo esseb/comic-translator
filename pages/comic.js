@@ -167,10 +167,7 @@ class Comic extends Component {
 
     return (
       <Main title={comic.title}>
-        <div
-          className="comic-page"
-          style={{ backgroundColor: comic.backgroundColor }}
-        >
+        <div className="comic-page" style={{ backgroundColor: comic.color }}>
           <div className="comic-page__header">
             <Link route="index">
               <a className="comic-page__home-link">⬅</a>
@@ -278,7 +275,7 @@ class Comic extends Component {
 
           .comic-page__bubble {
             margin: 0 auto;
-            max-width: 600px;
+            max-width: 500px;
             min-width: 100px;
           }
         `}</style>
