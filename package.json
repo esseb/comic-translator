@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
+    "bundle:analyze": "webpack-bundle-analyzer .next/stats.json",
     "start": "NODE_ENV=production node server.js",
     "flow": "flow",
     "test": "NODE_ENV=test jest",
@@ -37,7 +38,8 @@
     "react": "^15.5.4",
     "react-aria-modal": "^2.6.0",
     "react-dom": "^15.5.4",
-    "slug": "^0.9.1"
+    "slug": "^0.9.1",
+    "webpack-bundle-analyzer": "^2.8.2"
   },
   "devDependencies": {
     "enzyme": "^2.8.2",
