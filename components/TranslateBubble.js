@@ -4,7 +4,7 @@ import SpeechBubble from "./SpeechBubble";
 import SelectableWords from "./SelectableWords";
 
 type Props = {
-  text: boolean,
+  text: string,
   onSelect: (text: string) => void
 };
 
