@@ -4,6 +4,7 @@ dependencies:
 test:
   override:
     - yarn run test
+    - yarn run flow -- check
 machine:
   node:
     version: 7.7.3
