@@ -25,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "babel-jest": "^20.0.3",
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.17.2",
     "classnames": "^2.2.5",
