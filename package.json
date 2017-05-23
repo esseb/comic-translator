@@ -14,6 +14,7 @@
     "start": "NODE_ENV=production node server.js",
     "flow": "flow",
     "test": "NODE_ENV=test jest",
+    "lint": "eslint **/*.js",
     "precommit": "lint-staged",
     "deploy": "now -e MSTRANSLATOR_API_KEY=@mstranslator-api-key -e BASIC_AUTH_USERNAME=@basic-auth-username -e BASIC_AUTH_PASSWORD=@basic-auth-password",
     "alias": "now alias"
@@ -25,9 +26,12 @@
     ]
   },
   "dependencies": {
+    "babel-eslint": "^7.2.3",
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.17.2",
     "classnames": "^2.2.5",
+    "eslint": "^3.19.0",
+    "eslint-plugin-flowtype": "^2.33.0",
     "express": "^4.15.2",
     "isomorphic-unfetch": "^1.0.0",
     "mstranslator": "^2.1.2",

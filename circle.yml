@@ -5,6 +5,7 @@ test:
   override:
     - yarn run test
     - yarn run flow -- check
+    - yar run lint
 machine:
   node:
     version: 7.7.3
