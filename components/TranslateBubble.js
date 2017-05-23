@@ -1,3 +1,5 @@
+// @flow
+
 import SpeechBubble from "./SpeechBubble";
 import SelectableWords from "./SelectableWords";
 
