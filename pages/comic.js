@@ -158,7 +158,10 @@ class Comic extends Component {
 
     return (
       <Main title={comic.title}>
-        <div className="comic-page" style={{ backgroundColor: comic.color }}>
+        <div
+          className="comic-page"
+          style={{ backgroundColor: comic.color || "skyblue" }}
+        >
           <div className="comic-page__header">
             <Link route="index">
               <a className="comic-page__home-link">⬅</a>
