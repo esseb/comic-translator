@@ -35,7 +35,7 @@ const SpeechBubble = (props: Props) => {
 
       <style global jsx>{`
         .speech-bubble {
-          padding: 16px 0;
+          padding: 16px;
         }
 
         .speech-bubble__content {
@@ -103,6 +103,7 @@ const SpeechBubble = (props: Props) => {
 
         .speech-bubble__arrow--r {
           left: 100%;
+          margin-left: 1px;  /* Tiny tweak to prevent the black lines from going inside the bubble */
           top: 50%;
           transform: scaleX(-1) translateY(-50%) rotate(90deg);
         }
@@ -114,6 +115,7 @@ const SpeechBubble = (props: Props) => {
         }
 
         .speech-bubble__arrow--l {
+          margin-right: 1px;  /* Tiny tweak to prevent the black lines from going inside the bubble */
           right: 100%;
           top: 50%;
           transform: translateY(-50%) rotate(90deg);

@@ -231,7 +231,7 @@ class Comic extends Component {
             display: flex;
             flex: 1;
             justify-content: center;
-            padding: 0 20px;
+            padding: 0 5px;
             position: relative;
           }
 
