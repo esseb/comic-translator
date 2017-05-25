@@ -198,6 +198,7 @@ class Comic extends Component {
             <div className="comic-page__bubble">
               <TranslateBubble
                 text={bubble.text}
+                arrows={bubble.arrows}
                 onSelect={this.handledSelectText}
               />
             </div>

@@ -11,7 +11,8 @@
           {
             "bubbles": [
               {
-                "text": "Boulet! Je suis ton double du futur! J'ai remonté le temps pour te dire..."
+                "text": "Boulet! Je suis ton double du futur! J'ai remonté le temps pour te dire...",
+                "arrows": ["br"]
               },
               {
                 "text": "Zap",
@@ -22,58 +23,72 @@
           {
             "bubbles": [
               {
-                "text": "Woooh c'est quoi cette voix? Je parle vraiment comme ça!?"
+                "text": "Woooh c'est quoi cette voix? Je parle vraiment comme ça!?",
+                "arrows": ["bl"]
               },
               {
-                "text": "Wooh c'est ma voix, ça?! Trop bizarre!"
+                "text": "Wooh c'est ma voix, ça?! Trop bizarre!",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Ouah! Vas-y dis un truc?"
+                "text": "Ouah! Vas-y dis un truc?",
+                "arrows": ["bl"]
               },
               {
-                "text": "Non, toi vas-y"
+                "text": "Non, toi vas-y",
+                "arrows": ["br"]
               },
               {
-                "text": "C'est fou"
+                "text": "C'est fou",
+                "arrows": ["br"]
               },
               {
-                "text": "Bah chais pas heu... blabla. Je... Je m'appelle Boulet non mais chais pas, à ton tour"
+                "text": "Bah chais pas heu... blabla. Je... Je m'appelle Boulet non mais chais pas, à ton tour",
+                "arrows": ["bl"]
               },
               {
-                "text": "Euh bonjour essai, un, deux, un, deux"
+                "text": "Euh bonjour essai, un, deux, un, deux",
+                "arrows": ["br"]
               },
               {
-                "text": "C'est trop bizarre"
+                "text": "C'est trop bizarre",
+                "arrows": ["bl", "br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Haha! En choeur!"
+                "text": "Haha! En choeur!",
+                "arrows": ["br"]
               },
               {
-                "text": "Attends! Vas-y on fait un canon!"
+                "text": "Attends! Vas-y on fait un canon!",
+                "arrows": ["bl"]
               },
               {
-                "text": "Nan arrète t'es con, haha!"
+                "text": "Nan arrète t'es con, haha!",
+                "arrows": ["br"]
               },
               {
-                "text": "Mais si! Vent frais vent du matin!"
+                "text": "Mais si! Vent frais vent du matin!",
+                "arrows": ["bl"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Je commence!"
+                "text": "Je commence!",
+                "arrows": ["bl"]
               },
               {
                 "text": "Venf frais, vent du matin! Vent qui souffle au sommet, des grand pins",
+                "arrows": ["bl", "br"],
                 "comment": "French children's song. Appears to be a truncated version judging from lyrics I found online."
               }
             ]
@@ -81,26 +96,32 @@
           {
             "bubbles": [
               {
-                "text": "Huhu va falloir de l'entrainement! Bière?"
+                "text": "Huhu va falloir de l'entrainement! Bière?",
+                "arrows": ["bl"]
               },
               {
-                "text": "Bah écoute si t'en prends une ..."
+                "text": "Bah écoute si t'en prends une ...",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Non j'trouve que jai bien vieilli. À part les... Les ch'veux mais ça bon javais vu v'nir"
+                "text": "Non j'trouve que jai bien vieilli. À part les... Les ch'veux mais ça bon javais vu v'nir",
+                "arrows": ["bl"]
               },
               {
-                "text": "Rhooo mais t'en a encore plein, arrète on s'en fout!"
+                "text": "Rhooo mais t'en a encore plein, arrète on s'en fout!",
+                "arrows": ["br"]
               },
               {
-                "text": "Ouais nan t'as raison"
+                "text": "Ouais nan t'as raison",
+                "arrows": ["bl"]
               },
               {
-                "text": "Mais ouais putain t'es ecore jenen"
+                "text": "Mais ouais putain t'es ecore jenen",
+                "arrows": ["br"]
               }
             ]
           },
@@ -108,46 +129,55 @@
             "bubbles": [
               {
                 "text": "Beep beep beep beep beep beep beep",
-                "type": "ONOMATOPOEIA"
+                "type": "ROBOT"
               },
               {
-                "text": "Huhu tu te fais embarquer ta DeLorean par la fourrière?"
+                "text": "Huhu tu te fais embarquer ta DeLorean par la fourrière?",
+                "arrows": ["bl"]
               },
               {
-                "text": "Nan, je dois y aller!"
+                "text": "Nan, je dois y aller!",
+                "arrows": ["br"]
               },
               {
-                "text": "La rebellio a mis toutes ses dernières ressources dans ce voyage!"
+                "text": "La rebellio a mis toutes ses dernières ressources dans ce voyage!",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Bon bah salut alors! Bisous à tous les vieux copains! Haha!"
+                "text": "Bon bah salut alors! Bisous à tous les vieux copains! Haha!",
+                "arrows": ["bl"]
               },
               {
-                "text": "Ha ha mon pauvre ami si tu savais!"
+                "text": "Ha ha mon pauvre ami si tu savais!",
+                "arrows": ["br"]
               },
               {
-                "text": "Allez tchô"
+                "text": "Allez tchô",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "\"La rebellion\"?"
+                "text": "\"La rebellion\"?",
+                "arrows": ["bl"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "C'est bon?"
+                "text": "C'est bon?",
+                "arrows": ["br"]
               },
               {
-                "text": "Tu les as avertis?"
+                "text": "Tu les as avertis?",
+                "arrows": ["br"]
               }
             ]
           }
