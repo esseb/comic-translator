@@ -139,7 +139,11 @@ class TranslationDialog extends Component {
   render() {
     return (
       <ReactAriaModal
-        mounted={this.props.originalText !== null}
+        mounted={
+          this.props.status.active ||
+            this.props.status.success ||
+            this.props.status.error
+        }
         titleText="Translation"
         getApplicationNode={getApplicationNode}
         verticallyCenter={true}
