@@ -3,13 +3,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import TranslateBubble from "./TranslateBubble";
+import Bubble from "./Bubble";
 
-describe("TranslateBubble component", () => {
+describe("Bubble component", () => {
   it("should render without crashing", () => {
     const div = document.createElement("div");
     ReactDOM.render(
-      <TranslateBubble text="Foo bar bax" onSelect={text => {}} />,
+      <Bubble type="SPEECH_BUBBLE" text="Foo bar bax" onSelect={text => {}} />,
       div
     );
   });
