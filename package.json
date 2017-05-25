@@ -12,6 +12,7 @@
     "build": "next build",
     "bundle:analyze": "webpack-bundle-analyzer .next/stats.json",
     "start": "NODE_ENV=production node server.js",
+    "storybook": "start-storybook -c .storybook -p 9001",
     "flow": "flow",
     "test": "NODE_ENV=test jest",
     "lint": "eslint **/*.js",
@@ -26,6 +27,8 @@
     ]
   },
   "dependencies": {
+    "@storybook/addon-actions": "^3.0.0-alpha.0",
+    "@storybook/react": "^3.0.0-alpha.0",
     "babel-eslint": "^7.2.3",
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.17.2",
