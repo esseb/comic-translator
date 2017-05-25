@@ -15,9 +15,14 @@ const EXIT_ANIMATION_DURATION_OVERLAY = 250;
 const EXIT_ANIMATION_DURATION_DIALOG = 250;
 
 type Props = {
-  onClose: () => void,
+  status: {
+    active: boolean,
+    success: boolean,
+    error: boolean
+  },
   originalText: string | null,
-  translatedText: string | null
+  translatedText: string | null,
+  onClose: () => void
 };
 
 type State = {
@@ -69,9 +74,13 @@ class TranslationDialog extends Component {
   }
 
   handleModalExit() {
-    // Prevent the dialog from closing
-    // if the entering animation is still running.
-    if (this.state.isEntering) {
+    // Prevent the dialog from closing if we're still in the middle of translating.
+    if (this.props.status.active === true) {
+      return;
+    }
+
+    // Prevent the dialog from closing if the entering animation is still running.
+    if (this.state.isEntering === true) {
       return;
     }
 
@@ -99,12 +108,38 @@ class TranslationDialog extends Component {
     });
   }
 
+  renderBody() {
+    if (this.props.status.active === true) {
+      return <div className="translation-dialog__body">...</div>;
+    }
+
+    if (this.props.status.error === true) {
+      return <div className="translation-dialog__body">:(</div>;
+    }
+
+    if (this.props.translatedText && this.props.originalText) {
+      return (
+        <div className="translation-dialog__body">
+          <div className="translation-dialog__translation">
+            <h2 className="translation-dialog__heading">Translation</h2>
+            <p>{this.props.translatedText}</p>
+          </div>
+
+          <div className="translation-dialog__original">
+            <h2 className="translation-dialog__heading">Original</h2>
+            <p>{this.props.originalText}</p>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   render() {
     return (
       <ReactAriaModal
-        mounted={
-          this.props.originalText !== null && this.props.translatedText !== null
-        }
+        mounted={this.props.originalText !== null}
         titleText="Translation"
         getApplicationNode={getApplicationNode}
         verticallyCenter={true}
@@ -130,15 +165,7 @@ class TranslationDialog extends Component {
             <span>×</span>
           </button>
 
-          <div className="translation-dialog__translation">
-            <h2 className="translation-dialog__heading">Translation</h2>
-            <p>{this.props.translatedText}</p>
-          </div>
-
-          <div className="translation-dialog__original">
-            <h2 className="translation-dialog__heading">Original</h2>
-            <p>{this.props.originalText}</p>
-          </div>
+          {this.renderBody()}
         </div>
 
         <style global jsx>{`

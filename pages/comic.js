@@ -7,7 +7,6 @@ import { Router, Link } from "../routes";
 import Main from "../layout/Main";
 import TranslateBubble from "../components/TranslateBubble";
 import TranslationDialog from "../components/TranslationDialog";
-import Loader from "../components/Loader";
 import translate from "../lib/translate";
 import { baseline } from "../variables/spacing";
 import comics from "../static/comics.json";
@@ -19,8 +18,11 @@ import comics from "../static/comics.json";
 const TRANSLATING_LOADING_ANIMATION_DELAY = 500;
 
 type State = {
-  isTranslating: boolean,
-  showTranslationAnimation: boolean,
+  translationStatus: {
+    active: boolean,
+    success: boolean,
+    error: boolean
+  },
   originalText: null | string,
   translatedText: null | string
 };
@@ -34,8 +36,11 @@ class Comic extends Component {
     super(props);
 
     this.state = {
-      isTranslating: false,
-      showTranslationAnimation: false,
+      translationStatus: {
+        active: false,
+        success: false,
+        error: false
+      },
       originalText: null,
       translatedText: null
     };
@@ -45,21 +50,16 @@ class Comic extends Component {
   }
 
   handledSelectText(text: string) {
-    this.setState({
-      isTranslating: true,
-      showTranslationAnimation: false
-    });
-
-    setTimeout(() => {
-      this.setState({ showTranslationAnimation: true });
-    }, TRANSLATING_LOADING_ANIMATION_DELAY);
+    this.setState(state => ({
+      translationStatus: { active: true, success: false, error: false },
+      originalText: text
+    }));
 
     // TODO(esseb): Only allow one pending translation at a time.
     // TODO(esseb): Handle error - show error dialog.
     translate({ from: "fr", to: "en", text: text }).then(translation => {
       this.setState({
-        isTranslating: false,
-        showTranslationAnimation: false,
+        translationStatus: { active: false, success: true, error: false },
         originalText: text,
         translatedText: translation
       });
@@ -70,6 +70,7 @@ class Comic extends Component {
     // TODO(esseb): Clear the selected text after closing the dialog,
     //   not before as we do now.
     this.setState({
+      translationStatus: { active: false, success: false, error: false },
       originalText: null,
       translatedText: null
     });
@@ -204,14 +205,11 @@ class Comic extends Component {
             </div>
 
             <TranslationDialog
+              status={this.state.translationStatus}
               originalText={this.state.originalText}
               translatedText={this.state.translatedText}
               onClose={this.closeTranslationDialog}
             />
-
-            {this.state.isTranslating && this.state.showTranslationAnimation
-              ? <Loader />
-              : null}
           </div>
         </div>
 
