@@ -5,8 +5,9 @@ import slugify from "slugify";
 import classNames from "classnames";
 import { Router, Link } from "../routes";
 import Main from "../layout/Main";
-import Bubble from "../components/Bubble";
-import SelectableWords from "../components/SelectableWords";
+import TranslationBubble, {
+  SPEECH_BUBBLE
+} from "../components/TranslationBubble";
 import TranslationDialog from "../components/TranslationDialog";
 import translate from "../lib/translate";
 import { baseline } from "../variables/spacing";
@@ -201,15 +202,12 @@ class Comic extends Component {
             </button>
 
             <div className="comic-page__bubble">
-              <Bubble
-                type={bubble.type || "SPEECH_BUBBLE"}
+              <TranslationBubble
+                type={bubble.type || SPEECH_BUBBLE}
+                text={bubble.text}
                 arrows={bubble.arrows}
-              >
-                <SelectableWords
-                  text={bubble.text}
-                  onSelect={this.handledSelectText}
-                />
-              </Bubble>
+                onSelect={this.handledSelectText}
+              />
             </div>
 
             <TranslationDialog
