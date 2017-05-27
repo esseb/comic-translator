@@ -178,9 +178,9 @@ class Swiper extends Component {
       const animationDirection = -swipeDirection;
 
       // Switch to previous or next slide
-      // if the user swiped more than a third of the slide width.
+      // if the user swiped more than a quarter of the slide width.
       let shouldSwitchSlide =
-        Math.abs(prevState.swipeDeltaX) > prevState.slideWidth / 3;
+        Math.abs(prevState.swipeDeltaX) > prevState.slideWidth / 4;
 
       if (
         (swipeDirection === -1 && this.props.previousSlide === null) ||
