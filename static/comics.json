@@ -129,7 +129,7 @@
             "bubbles": [
               {
                 "text": "Beep beep beep beep beep beep beep",
-                "type": "ROBOT"
+                "type": "STROKED"
               },
               {
                 "text": "Huhu tu te fais embarquer ta DeLorean par la fourrière?",
