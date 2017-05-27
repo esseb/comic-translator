@@ -9,6 +9,7 @@ import TranslationBubble, {
   SPEECH_BUBBLE
 } from "../components/TranslationBubble";
 import TranslationDialog from "../components/TranslationDialog";
+import Swiper from "../components/Swiper";
 import translate from "../lib/translate";
 import { baseline } from "../variables/spacing";
 import comics from "../static/comics.json";
@@ -177,38 +178,38 @@ class Comic extends Component {
           </div>
 
           <div className="comic-page__body">
-            <button
-              className={classNames(
-                "comic-page__navigation-button",
-                "comic-page__navigation-button--previous"
-              )}
-              onClick={() => {
-                this.switchBubble("previous");
-              }}
-            >
-              Previous bubble
-            </button>
-
-            <button
-              className={classNames(
-                "comic-page__navigation-button",
-                "comic-page__navigation-button--next"
-              )}
-              onClick={() => {
-                this.switchBubble("next");
-              }}
-            >
-              Next bubble
-            </button>
-
-            <div className="comic-page__bubble">
-              <TranslationBubble
-                type={bubble.type || SPEECH_BUBBLE}
-                text={bubble.text}
-                arrows={bubble.arrows}
-                onSelect={this.handledSelectText}
-              />
-            </div>
+            <Swiper
+              previousSlide={
+                <div className="comic-page__bubble">
+                  <TranslationBubble
+                    type={bubble.type || SPEECH_BUBBLE}
+                    text="Previous"
+                    arrows={bubble.arrows}
+                    onSelect={this.handledSelectText}
+                  />
+                </div>
+              }
+              currentSlide={
+                <div className="comic-page__bubble">
+                  <TranslationBubble
+                    type={bubble.type || SPEECH_BUBBLE}
+                    text={bubble.text}
+                    arrows={bubble.arrows}
+                    onSelect={this.handledSelectText}
+                  />
+                </div>
+              }
+              nextSlide={
+                <div className="comic-page__bubble">
+                  <TranslationBubble
+                    type={bubble.type || SPEECH_BUBBLE}
+                    text="Next"
+                    arrows={bubble.arrows}
+                    onSelect={this.handledSelectText}
+                  />
+                </div>
+              }
+            />
 
             <TranslationDialog
               status={this.state.translationStatus}
@@ -231,11 +232,7 @@ class Comic extends Component {
           }
 
           .comic-page__body {
-            align-items: center;
-            display: flex;
             flex: 1;
-            justify-content: center;
-            padding: 0 5px;
             position: relative;
           }
 
@@ -271,28 +268,11 @@ class Comic extends Component {
             text-decoration: none;
           }
 
-          .comic-page__navigation-button {
-            background-color: transparent;
-            border: 0;
-            bottom: 0;
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            width: 50%;
-          }
-
-          .comic-page__navigation-button--previous {
-            left: 0;
-          }
-
-          .comic-page__navigation-button--next {
-            right: 0;
-          }
-
           .comic-page__bubble {
+            display: inline-block;
             margin: 0 auto;
             max-width: 500px;
-            min-width: 100px;
+            min-width: 150px;
           }
         `}</style>
       </Main>

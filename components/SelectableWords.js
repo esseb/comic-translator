@@ -24,7 +24,8 @@ class SelectableWords extends Component {
   handleSelectStart: Function;
   handleSelectMove: Function;
   handleSelectEnd: Function;
-  _wordElements: Array<HTMLElement>;
+  element: HTMLElement | null;
+  wordElements: Array<HTMLElement>;
 
   constructor(props: Props) {
     super(props);
@@ -41,33 +42,39 @@ class SelectableWords extends Component {
     this.handleSelectMove = this.handleSelectMove.bind(this);
     this.handleSelectEnd = this.handleSelectEnd.bind(this);
 
-    this._wordElements = [];
+    this.element = null;
+    this.wordElements = [];
   }
 
   componentDidMount() {
-    document.addEventListener("touchstart", this.handleSelectStart, {
-      passive: false
-    });
-    document.addEventListener("touchmove", this.handleSelectMove, {
-      passive: false
-    });
-    document.addEventListener("touchend", this.handleSelectEnd, {
-      passive: false
-    });
+    const element = this.element;
 
-    document.addEventListener("mousedown", this.handleSelectStart);
-    document.addEventListener("mousemove", this.handleSelectMove);
-    document.addEventListener("mouseup", this.handleSelectEnd);
+    // This code is slightly awkwardly written in order to please Flow...
+    if (element) {
+      const options = { passive: false };
+      element.addEventListener("touchstart", this.handleSelectStart, options);
+      element.addEventListener("touchmove", this.handleSelectMove, options);
+      element.addEventListener("touchend", this.handleSelectEnd, options);
+
+      element.addEventListener("mousedown", this.handleSelectStart);
+      element.addEventListener("mousemove", this.handleSelectMove);
+      element.addEventListener("mouseup", this.handleSelectEnd);
+    }
   }
 
   componentWillUnmount() {
-    document.removeEventListener("touchstart", this.handleSelectStart);
-    document.removeEventListener("touchend", this.handleSelectMove);
-    document.removeEventListener("touchmove", this.handleSelectEnd);
+    const element = this.element;
 
-    document.removeEventListener("mousedown", this.handleSelectStart);
-    document.removeEventListener("mouseup", this.handleSelectMove);
-    document.removeEventListener("mousemove", this.handleSelectEnd);
+    // This code is slightly awkwardly written in order to please Flow...
+    if (element) {
+      element.removeEventListener("touchstart", this.handleSelectStart);
+      element.removeEventListener("touchend", this.handleSelectMove);
+      element.removeEventListener("touchmove", this.handleSelectEnd);
+
+      element.removeEventListener("mousedown", this.handleSelectStart);
+      element.removeEventListener("mouseup", this.handleSelectMove);
+      element.removeEventListener("mousemove", this.handleSelectEnd);
+    }
   }
 
   handleSelectStart(event: MouseEvent | TouchEvent) {
@@ -92,13 +99,16 @@ class SelectableWords extends Component {
       return;
     }
 
-    const wordIndex = this._wordElements.findIndex(word => word === target);
+    const wordIndex = this.wordElements.findIndex(word => word === target);
     if (wordIndex === -1) {
       return;
     }
 
     // Prevent text selection.
     event.preventDefault();
+
+    // Stop Swiper from swiping...
+    event.stopPropagation();
 
     this.setState({
       isSelecting: true,
@@ -123,12 +133,15 @@ class SelectableWords extends Component {
     // Prevent text selection.
     event.preventDefault();
 
+    // Stop Swiper from swiping...
+    event.stopPropagation();
+
     const target = getElementFromEventPosition(event);
     if (target === null) {
       return;
     }
 
-    const wordIndex = this._wordElements.findIndex(word => word === target);
+    const wordIndex = this.wordElements.findIndex(word => word === target);
     if (wordIndex === -1) {
       return;
     }
@@ -146,6 +159,12 @@ class SelectableWords extends Component {
     if (this.state.isSelectingUsingTouchEvents && event.type === "mousedown") {
       return;
     }
+
+    // Prevent text selection.
+    event.preventDefault();
+
+    // Stop Swiper from swiping...
+    event.stopPropagation();
 
     // Call the `onSelect` prop with the selected text
     // if anything was selected.
@@ -183,7 +202,7 @@ class SelectableWords extends Component {
           "selectable-words__word--selection-end": index === selectionEnd
         })}
         ref={ref => {
-          this._wordElements[index] = ref;
+          this.wordElements[index] = ref;
         }}
       >
         {word}
@@ -195,7 +214,12 @@ class SelectableWords extends Component {
     const words = this.props.text.split(/\s/);
 
     return (
-      <div className="selectable-words">
+      <div
+        className="selectable-words"
+        ref={element => {
+          this.element = element;
+        }}
+      >
         {words.map((word, index) => [this.renderWord(word, index), " "])}
 
         <style global jsx>{`
