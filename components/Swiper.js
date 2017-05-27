@@ -4,11 +4,13 @@ import React, { Component } from "react";
 import type { Element } from "react";
 
 const MOUSE_LEFT = 0;
+const SLIDE_ANIMATION_DURATION = 250;
 
 type Props = {
-  previousSlide?: Element<any>,
-  currentSlide?: Element<any>,
-  nextSlide?: Element<any>
+  previousSlide: Element<any> | null,
+  currentSlide: Element<any>,
+  nextSlide: Element<any> | null,
+  onSwipeSuccess: (direction: "previous" | "next") => void
 };
 
 type State = {
@@ -17,7 +19,9 @@ type State = {
   isSwipingUsingTouchEvents: boolean,
   swipeStartX: number | null,
   swipeDeltaX: number | null,
-  swipeMaxDeltaX: number | null
+  isAnimating: boolean,
+  animationDirection: -1 | 0 | 1,
+  slideWidth: number | null
 };
 
 class Swiper extends Component {
@@ -26,6 +30,7 @@ class Swiper extends Component {
   handleSwipeStart: Function;
   handleSwipeMove: Function;
   handleSwipeEnd: Function;
+  handleTransitionEnd: Function;
   element: HTMLElement | null;
 
   constructor(props: Object) {
@@ -37,152 +42,206 @@ class Swiper extends Component {
       isSwipingUsingTouchEvents: false,
       swipeStartX: null,
       swipeDeltaX: null,
-      swipeMaxDeltaX: null
+      isAnimating: false,
+      animationDirection: 0,
+      slideWidth: null
     };
 
     this.handleSwipeStart = this.handleSwipeStart.bind(this);
     this.handleSwipeMove = this.handleSwipeMove.bind(this);
     this.handleSwipeEnd = this.handleSwipeEnd.bind(this);
+    this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
 
     this.element = null;
   }
 
   componentDidMount() {
     const element = this.element;
-
-    // This code is slightly awkwardly written in order to please Flow...
-    if (element) {
-      const options = { passive: false };
-      element.addEventListener("touchstart", this.handleSwipeStart, options);
-      element.addEventListener("touchmove", this.handleSwipeMove, options);
-      element.addEventListener("touchend", this.handleSwipeEnd, options);
-
-      element.addEventListener("mousedown", this.handleSwipeStart);
-      element.addEventListener("mousemove", this.handleSwipeMove);
-      element.addEventListener("mouseup", this.handleSwipeEnd);
+    if (element === null) {
+      return;
     }
+
+    const options = { passive: false };
+    element.addEventListener("touchstart", this.handleSwipeStart, options);
+    element.addEventListener("touchmove", this.handleSwipeMove, options);
+    element.addEventListener("touchend", this.handleSwipeEnd, options);
+
+    element.addEventListener("mousedown", this.handleSwipeStart);
+    element.addEventListener("mousemove", this.handleSwipeMove);
+    element.addEventListener("mouseup", this.handleSwipeEnd);
+
+    element.addEventListener("transitionend", this.handleTransitionEnd);
   }
 
   componentWillUnmount() {
     const element = this.element;
+    if (element === null) {
+      return;
+    }
 
-    // This code is slightly awkwardly written in order to please Flow...
-    if (element) {
-      element.removeEventListener("touchstart", this.handleSwipeStart);
-      element.removeEventListener("touchmove", this.handleSwipeMove);
-      element.removeEventListener("touchend", this.handleSwipeEnd);
+    element.removeEventListener("touchstart", this.handleSwipeStart);
+    element.removeEventListener("touchmove", this.handleSwipeMove);
+    element.removeEventListener("touchend", this.handleSwipeEnd);
 
-      element.removeEventListener("mousedown", this.handleSwipeStart);
-      element.removeEventListener("mouseup", this.handleSwipeMove);
-      element.removeEventListener("mousemove", this.handleSwipeEnd);
+    element.removeEventListener("mousedown", this.handleSwipeStart);
+    element.removeEventListener("mouseup", this.handleSwipeMove);
+    element.removeEventListener("mousemove", this.handleSwipeEnd);
+
+    element.removeEventListener("transitionend", this.handleTransitionEnd);
+  }
+
+  componentDidUpdate(nextProps: Props) {
+    if (this.props.currentSlide !== nextProps.currentSlide) {
+      this.setState({
+        isAnimating: false,
+        animationDirection: 0,
+        slideWidth: null
+      });
     }
   }
 
   handleSwipeStart(event: MouseEvent | TouchEvent) {
-    if (this.state.isSwiping === true) {
-      return;
-    }
-
-    if (event instanceof MouseEvent) {
-      // We only care about the left mouse button.
-      if (event.button !== MOUSE_LEFT) {
-        return;
+    this.setState(prevState => {
+      if (prevState.isSwiping === true) {
+        return prevState;
       }
 
-      // Do nothing if any modifiers were used.
-      if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) {
-        return;
+      if (event instanceof MouseEvent) {
+        // We only care about the left mouse button.
+        if (event.button !== MOUSE_LEFT) {
+          return;
+        }
+
+        // Do nothing if any modifiers were used.
+        if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) {
+          return;
+        }
       }
-    }
 
-    // Prevent text selection.
-    event.preventDefault();
+      // Prevent text selection.
+      event.preventDefault();
 
-    const swipeX = Math.floor(
-      event instanceof TouchEvent ? event.touches[0].clientX : 0
-    );
+      const swipeX = event instanceof TouchEvent
+        ? event.touches[0].clientX
+        : event.clientX;
 
-    const swipeMaxDeltaX = this.element
-      ? this.element.getBoundingClientRect().width
-      : 0;
+      const slideWidth = this.element
+        ? this.element.getBoundingClientRect().width
+        : 0;
 
-    this.setState({
-      isSwiping: true,
-      isSwipingUsingMouseEvents: event.type === "mousedown",
-      isSwipingUsingTouchEvents: event.type === "touchstart",
-      swipeStartX: swipeX,
-      swipeDeltaX: 0,
-      swipeMaxDeltaX: swipeMaxDeltaX
+      return {
+        isSwiping: true,
+        isSwipingUsingMouseEvents: event.type === "mousedown",
+        isSwipingUsingTouchEvents: event.type === "touchstart",
+        swipeStartX: Math.floor(swipeX),
+        swipeDeltaX: 0,
+        slideWidth: slideWidth
+      };
     });
   }
 
   handleSwipeMove(event: MouseEvent | TouchEvent) {
-    if (this.state.isSwiping === false) {
-      return;
-    }
+    this.setState(prevState => {
+      if (prevState.isSwiping === false) {
+        return prevState;
+      }
 
-    // Prevent text selection.
-    event.preventDefault();
+      // Prevent text selection.
+      event.preventDefault();
 
-    const swipeX = Math.floor(
-      event instanceof TouchEvent ? event.touches[0].clientX : 0
-    );
+      const swipeX = event instanceof TouchEvent
+        ? event.touches[0].clientX
+        : event.clientX;
 
-    this.setState(state => {
-      const swipeDeltaX = state.swipeStartX - swipeX;
-
-      // Don't make it possible to swipe past the edge.
-      const swipeDirection = swipeDeltaX / Math.abs(swipeDeltaX);
-      const swipeDeltaXCapped =
-        swipeDirection * Math.min(state.swipeMaxDeltaX, Math.abs(swipeDeltaX));
+      // Don't make it possible to swipe greather than the width of one slide.
+      let swipeDeltaX = prevState.swipeStartX - Math.floor(swipeX);
+      swipeDeltaX =
+        Math.min(Math.abs(swipeDeltaX), prevState.slideWidth) *
+        Math.sign(swipeDeltaX);
 
       return {
-        swipeDeltaX: swipeDeltaXCapped
+        swipeDeltaX: swipeDeltaX
       };
     });
   }
 
   handleSwipeEnd(event: MouseEvent | TouchEvent) {
-    if (this.state.isSwiping === false) {
-      return;
-    }
+    this.setState(prevState => {
+      if (prevState.isSwiping === false) {
+        return prevState;
+      }
 
-    this.setState({
-      isSwiping: false,
-      isSwipingUsingMouseEvents: false,
-      isSwipingUsingTouchEvents: false,
-      swipeStartX: null,
-      swipeDeltaX: null,
-      swipeMaxDeltaX: null
+      // Swipe direction is -1 for previous, 1 for next.
+      const swipeDirection = Math.sign(prevState.swipeDeltaX);
+
+      // The direction we should animate is opposite of the swipe direction.
+      const animationDirection = -swipeDirection;
+
+      // Switch to previous or next slide
+      // if the user swiped more than a third of the slide width.
+      let shouldSwitchSlide =
+        Math.abs(prevState.swipeDeltaX) > prevState.slideWidth / 3;
+
+      if (
+        (swipeDirection === -1 && this.props.previousSlide === null) ||
+        (swipeDirection === 1 && this.props.nextSlide === null)
+      ) {
+        shouldSwitchSlide = false;
+      }
+
+      return {
+        isSwiping: false,
+        isSwipingUsingMouseEvents: false,
+        isSwipingUsingTouchEvents: false,
+        swipeStartX: null,
+        swipeDeltaX: null,
+        isAnimating: true,
+        animationDirection: shouldSwitchSlide ? animationDirection : 0
+      };
     });
   }
 
-  renderPreviousSlide() {
-    if (this.props.previousSlide === null) {
-      return <div className="swiper__slide" aria-hidden="true" inert />;
+  handleTransitionEnd(event: TransitionEvent) {
+    if (event.type !== "transitionend") {
+      return;
     }
 
-    return <div className="swiper__slide">{this.props.previousSlide}</div>;
+    if (this.state.animationDirection !== 0) {
+      const swipeDirection = this.state.animationDirection === 1
+        ? "previous"
+        : "next";
+
+      this.props.onSwipeSuccess(swipeDirection);
+    } else {
+      this.setState({
+        isAnimating: false,
+        animationDirection: 0,
+        slideWidth: null
+      });
+    }
   }
 
-  renderCurrentSlide() {
-    return <div className="swiper__slide">{this.props.currentSlide}</div>;
-  }
-
-  renderNextSlide() {
-    if (this.props.nextSlide === null) {
-      return <div className="swiper__slide" aria-hidden="true" inert />;
+  renderSlide(slide: Element<any> | null) {
+    if (slide === null) {
+      return <div className="swiper__slide" aria-hidden="true" />;
     }
 
-    return <div className="swiper__slide">{this.props.nextSlide}</div>;
+    return <div className="swiper__slide">{slide}</div>;
   }
 
   render() {
     const style = {};
 
     if (this.state.isSwiping === true) {
-      const swipeDeltaX = this.state.swipeDeltaX || 0;
-      style.transform = `translateX(calc(${-swipeDeltaX}px))`;
+      const translateX = this.state.swipeDeltaX ? -this.state.swipeDeltaX : 0;
+      style.transform = `translateX(calc(${translateX}px))`;
+    }
+
+    if (this.state.isAnimating === true) {
+      const slideWidth = this.state.slideWidth || 0;
+      const translateX = this.state.animationDirection * slideWidth;
+      style.transform = `translateX(calc(${translateX}px))`;
+      style.transition = `transform ${SLIDE_ANIMATION_DURATION}ms`;
     }
 
     return (
@@ -193,9 +252,9 @@ class Swiper extends Component {
         }}
       >
         <div className="swiper__content" style={style}>
-          {this.renderPreviousSlide()}
-          {this.renderCurrentSlide()}
-          {this.renderNextSlide()}
+          {this.renderSlide(this.props.previousSlide)}
+          {this.renderSlide(this.props.currentSlide)}
+          {this.renderSlide(this.props.nextSlide)}
         </div>
 
         <style global jsx>{`

@@ -34,6 +34,7 @@ class Comic extends Component {
   state: State;
   handledSelectText: Function;
   closeTranslationDialog: Function;
+  switchBubble: Function;
 
   constructor(props: Object) {
     super(props);
@@ -50,6 +51,7 @@ class Comic extends Component {
 
     this.handledSelectText = this.handledSelectText.bind(this);
     this.closeTranslationDialog = this.closeTranslationDialog.bind(this);
+    this.switchBubble = this.switchBubble.bind(this);
   }
 
   handledSelectText(text: string) {
@@ -79,7 +81,15 @@ class Comic extends Component {
     });
   }
 
-  switchBubble(direction: "previous" | "next") {
+  getBubble(
+    direction: "previous" | "next"
+  ):
+    | {
+        pageId: number,
+        panelId: number,
+        bubbleId: number
+      }
+    | null {
     let {
       comicId,
       pageId = 0,
@@ -93,7 +103,6 @@ class Comic extends Component {
     bubbleId = parseInt(bubbleId, 10);
 
     const comic = comics[comicId];
-    const slug = slugify(comic.title).toLowerCase();
 
     // Collect all the bubbles with relevant route ids in a single list.
     const bubbleList = [];
@@ -115,31 +124,33 @@ class Comic extends Component {
     });
 
     if (direction === "previous" && currentBubbleIndex > 0) {
-      const previousBubble = bubbleList[currentBubbleIndex - 1];
-
-      Router.replaceRoute("bubble", {
-        slug: slug,
-        comicId: comicId,
-        pageId: previousBubble.pageId,
-        panelId: previousBubble.panelId,
-        bubbleId: previousBubble.bubbleId
-      });
-
-      return;
+      return bubbleList[currentBubbleIndex - 1];
     }
 
     if (direction === "next" && currentBubbleIndex < bubbleList.length - 1) {
-      const nextBubble = bubbleList[currentBubbleIndex + 1];
+      return bubbleList[currentBubbleIndex + 1];
+    }
 
+    return null;
+  }
+
+  switchBubble(direction: "previous" | "next") {
+    let { comicId } = this.props.url.query;
+
+    comicId = parseInt(comicId, 10);
+
+    const comic = comics[comicId];
+    const slug = slugify(comic.title).toLowerCase();
+
+    const targetBubble = this.getBubble(direction);
+    if (targetBubble !== null) {
       Router.replaceRoute("bubble", {
         slug: slug,
         comicId: comicId,
-        pageId: nextBubble.pageId,
-        panelId: nextBubble.panelId,
-        bubbleId: nextBubble.bubbleId
+        pageId: targetBubble.pageId,
+        panelId: targetBubble.panelId,
+        bubbleId: targetBubble.bubbleId
       });
-
-      return;
     }
   }
 
@@ -157,7 +168,24 @@ class Comic extends Component {
     bubbleId = parseInt(bubbleId, 10);
 
     const comic = comics[comicId];
-    const bubble = comic.pages[pageId].panels[panelId].bubbles[bubbleId];
+    const currentBubble = comic.pages[pageId].panels[panelId].bubbles[bubbleId];
+
+    let previousBubble = null;
+    const previousBubbleData = this.getBubble("previous");
+    if (previousBubbleData !== null) {
+      previousBubble =
+        comic.pages[previousBubbleData.pageId].panels[
+          previousBubbleData.panelId
+        ].bubbles[previousBubbleData.bubbleId];
+    }
+
+    let nextBubble = null;
+    const nextBubbleData = this.getBubble("next");
+    if (nextBubbleData !== null) {
+      nextBubble =
+        comic.pages[nextBubbleData.pageId].panels[nextBubbleData.panelId]
+          .bubbles[nextBubbleData.bubbleId];
+    }
 
     return (
       <Main title={comic.title}>
@@ -179,35 +207,40 @@ class Comic extends Component {
 
           <div className="comic-page__body">
             <Swiper
+              onSwipeSuccess={this.switchBubble}
               previousSlide={
-                <div className="comic-page__bubble">
-                  <TranslationBubble
-                    type={bubble.type || SPEECH_BUBBLE}
-                    text="Previous"
-                    arrows={bubble.arrows}
-                    onSelect={this.handledSelectText}
-                  />
-                </div>
+                previousBubble
+                  ? <div className="comic-page__bubble">
+                      <TranslationBubble
+                        type={previousBubble.type || SPEECH_BUBBLE}
+                        text={previousBubble.text}
+                        arrows={previousBubble.arrows}
+                        onSelect={(text: string) => {}}
+                      />
+                    </div>
+                  : null
               }
               currentSlide={
                 <div className="comic-page__bubble">
                   <TranslationBubble
-                    type={bubble.type || SPEECH_BUBBLE}
-                    text={bubble.text}
-                    arrows={bubble.arrows}
+                    type={currentBubble.type || SPEECH_BUBBLE}
+                    text={currentBubble.text}
+                    arrows={currentBubble.arrows}
                     onSelect={this.handledSelectText}
                   />
                 </div>
               }
               nextSlide={
-                <div className="comic-page__bubble">
-                  <TranslationBubble
-                    type={bubble.type || SPEECH_BUBBLE}
-                    text="Next"
-                    arrows={bubble.arrows}
-                    onSelect={this.handledSelectText}
-                  />
-                </div>
+                nextBubble
+                  ? <div className="comic-page__bubble">
+                      <TranslationBubble
+                        type={nextBubble.type || SPEECH_BUBBLE}
+                        text={nextBubble.text}
+                        arrows={nextBubble.arrows}
+                        onSelect={(text: string) => {}}
+                      />
+                    </div>
+                  : null
               }
             />
 

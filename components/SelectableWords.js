@@ -48,33 +48,33 @@ class SelectableWords extends Component {
 
   componentDidMount() {
     const element = this.element;
-
-    // This code is slightly awkwardly written in order to please Flow...
-    if (element) {
-      const options = { passive: false };
-      element.addEventListener("touchstart", this.handleSelectStart, options);
-      element.addEventListener("touchmove", this.handleSelectMove, options);
-      element.addEventListener("touchend", this.handleSelectEnd, options);
-
-      element.addEventListener("mousedown", this.handleSelectStart);
-      element.addEventListener("mousemove", this.handleSelectMove);
-      element.addEventListener("mouseup", this.handleSelectEnd);
+    if (element === null) {
+      return;
     }
+
+    const options = { passive: false };
+    element.addEventListener("touchstart", this.handleSelectStart, options);
+    element.addEventListener("touchmove", this.handleSelectMove, options);
+    element.addEventListener("touchend", this.handleSelectEnd, options);
+
+    element.addEventListener("mousedown", this.handleSelectStart);
+    element.addEventListener("mousemove", this.handleSelectMove);
+    element.addEventListener("mouseup", this.handleSelectEnd);
   }
 
   componentWillUnmount() {
     const element = this.element;
-
-    // This code is slightly awkwardly written in order to please Flow...
-    if (element) {
-      element.removeEventListener("touchstart", this.handleSelectStart);
-      element.removeEventListener("touchend", this.handleSelectMove);
-      element.removeEventListener("touchmove", this.handleSelectEnd);
-
-      element.removeEventListener("mousedown", this.handleSelectStart);
-      element.removeEventListener("mouseup", this.handleSelectMove);
-      element.removeEventListener("mousemove", this.handleSelectEnd);
+    if (element === null) {
+      return;
     }
+
+    element.removeEventListener("touchstart", this.handleSelectStart);
+    element.removeEventListener("touchend", this.handleSelectMove);
+    element.removeEventListener("touchmove", this.handleSelectEnd);
+
+    element.removeEventListener("mousedown", this.handleSelectStart);
+    element.removeEventListener("mouseup", this.handleSelectMove);
+    element.removeEventListener("mousemove", this.handleSelectEnd);
   }
 
   handleSelectStart(event: MouseEvent | TouchEvent) {
