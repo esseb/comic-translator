@@ -5,7 +5,7 @@ import type { Element } from "react";
 
 const MOUSE_LEFT = 0;
 const SLIDE_ANIMATION_DURATION = 250;
-const QUICK_SWIPE_MINIMUM_DISTANCE = 20;
+const QUICK_SWIPE_MINIMUM_DISTANCE = 15;
 const QUICK_SWIPE_MINIMUM_DURATION = 100;
 
 type Props = {
