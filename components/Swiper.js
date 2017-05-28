@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import type { Element } from "react";
 
 const MOUSE_LEFT = 0;
-const SLIDE_ANIMATION_DURATION = 200;
+const SLIDE_ANIMATION_DURATION = 100;
 const QUICK_SWIPE_MINIMUM_DISTANCE = 15;
 const QUICK_SWIPE_MINIMUM_DURATION = 100;
 
