@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import type { Element } from "react";
 
 const MOUSE_LEFT = 0;
-const SLIDE_ANIMATION_DURATION = 250;
+const SLIDE_ANIMATION_DURATION = 200;
 const QUICK_SWIPE_MINIMUM_DISTANCE = 15;
 const QUICK_SWIPE_MINIMUM_DURATION = 100;
 
@@ -271,7 +271,7 @@ class Swiper extends Component {
       const slideWidth = this.state.slideWidth || 0;
       const translateX = this.state.animationDirection * slideWidth;
       style.transform = `translateX(calc(${translateX}px))`;
-      style.transition = `transform ${SLIDE_ANIMATION_DURATION}ms`;
+      style.transition = `transform ${SLIDE_ANIMATION_DURATION}ms linear`;
     }
 
     return (
