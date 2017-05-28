@@ -5,6 +5,8 @@ import type { Element } from "react";
 
 const MOUSE_LEFT = 0;
 const SLIDE_ANIMATION_DURATION = 250;
+const QUICK_SWIPE_MINIMUM_DISTANCE = 20;
+const QUICK_SWIPE_MINIMUM_DURATION = 100;
 
 type Props = {
   previousSlide: Element<any> | null,
@@ -17,6 +19,7 @@ type State = {
   isSwiping: boolean,
   isSwipingUsingMouseEvents: boolean,
   isSwipingUsingTouchEvents: boolean,
+  swipeStartTime: number | null,
   swipeStartX: number | null,
   swipeDeltaX: number | null,
   isAnimating: boolean,
@@ -40,6 +43,7 @@ class Swiper extends Component {
       isSwiping: false,
       isSwipingUsingMouseEvents: false,
       isSwipingUsingTouchEvents: false,
+      swipeStartTime: null,
       swipeStartX: null,
       swipeDeltaX: null,
       isAnimating: false,
@@ -133,6 +137,7 @@ class Swiper extends Component {
         isSwiping: true,
         isSwipingUsingMouseEvents: event.type === "mousedown",
         isSwipingUsingTouchEvents: event.type === "touchstart",
+        swipeStartTime: Date.now(),
         swipeStartX: Math.floor(swipeX),
         swipeDeltaX: 0,
         slideWidth: slideWidth
@@ -171,8 +176,22 @@ class Swiper extends Component {
         return prevState;
       }
 
-      // Swipe direction is -1 for previous, 1 for next.
+      // Swipe direction is -1 for previous, 1 for next,
+      // or 0 if the user didn't actually end up moving the slide.
       const swipeDirection = Math.sign(prevState.swipeDeltaX);
+
+      // Cancel swiping without doing anything further
+      // since we have nothing to animate to.
+      if (swipeDirection === 0) {
+        return {
+          isSwiping: false,
+          isSwipingUsingMouseEvents: false,
+          isSwipingUsingTouchEvents: false,
+          swipeStartTime: null,
+          swipeStartX: null,
+          swipeDeltaX: null
+        };
+      }
 
       // The direction we should animate is opposite of the swipe direction.
       const animationDirection = -swipeDirection;
@@ -182,6 +201,16 @@ class Swiper extends Component {
       let shouldSwitchSlide =
         Math.abs(prevState.swipeDeltaX) > prevState.slideWidth / 4;
 
+      // Switch slides anyway if the user swiped quickly enough.
+      const swipeDeltaTime = Date.now() - prevState.swipeStartTime;
+      if (
+        Math.abs(prevState.swipeDeltaX) > QUICK_SWIPE_MINIMUM_DISTANCE &&
+        swipeDeltaTime < QUICK_SWIPE_MINIMUM_DURATION
+      ) {
+        shouldSwitchSlide = true;
+      }
+
+      // Don't swipe if there are no more slides in the swiped direction.
       if (
         (swipeDirection === -1 && this.props.previousSlide === null) ||
         (swipeDirection === 1 && this.props.nextSlide === null)
@@ -193,6 +222,7 @@ class Swiper extends Component {
         isSwiping: false,
         isSwipingUsingMouseEvents: false,
         isSwipingUsingTouchEvents: false,
+        swipeStartTime: null,
         swipeStartX: null,
         swipeDeltaX: null,
         isAnimating: true,
