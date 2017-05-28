@@ -11,7 +11,6 @@ import TranslationBubble, {
 import TranslationDialog from "../components/TranslationDialog";
 import Swiper from "../components/Swiper";
 import translate from "../lib/translate";
-import { baseline } from "../variables/spacing";
 import comics from "../static/comics.json";
 
 // How long to delay, in ms, before showing the loading animation

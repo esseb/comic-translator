@@ -3,8 +3,8 @@
 import type { Element } from "React";
 import Head from "next/head";
 
-import { baseline } from "../variables/spacing";
-import { fontSizeDefault } from "../variables/typography";
+import { BASELINE } from "../variables/spacing";
+import { FONT_SIZE_DEFAULT } from "../variables/typography";
 
 const APPLICATION_TITLE = "Comic Translator";
 
@@ -62,9 +62,9 @@ const Main = (props: Props) => (
 
       body {
         font-family: Helvetica, Arial, sans-serif;
-        font-size: ${fontSizeDefault}px;
+        font-size: ${FONT_SIZE_DEFAULT}px;
         font-weight: normal;
-        line-height: ${baseline}px;
+        line-height: ${BASELINE}px;
         margin: 0;
       }
     `}</style>

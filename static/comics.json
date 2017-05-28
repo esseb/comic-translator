@@ -16,7 +16,7 @@
               },
               {
                 "text": "Zap",
-                "type": "STROKED"
+                "type": "STROKED_TEXT"
               }
             ]
           },
@@ -129,7 +129,7 @@
             "bubbles": [
               {
                 "text": "Beep beep beep beep beep beep beep",
-                "type": "STROKED"
+                "type": "STROKED_TEXT"
               },
               {
                 "text": "Huhu tu te fais embarquer ta DeLorean par la fourrière?",
@@ -197,34 +197,40 @@
           {
             "bubbles": [
               {
-                "text": "Aéroport Charles-de-Gaulle début novembre. L'époque ideale pour partir en vacances dans l'hemisphère sud..."
+                "text": "Aéroport Charles-de-Gaulle début novembre. L'époque ideale pour partir en vacances dans l'hemisphère sud...",
+                "type": "SPEECH_BOX"
               },
               {
-                "text": "Allô, colonel? Ici, Charbonnier. Nous les avons trouvés!"
+                "text": "Allô, colonel? Ici, Charbonnier. Nous les avons trouvés!",
+                "arrows": ["bl"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Dèparts"
+                "text": "Dèparts",
+                "type": "SPEECH_BOX"
               },
               {
-                "text": "\"Ils\" s'apprêtent à quitter le territoire. Un vol Paris-Papeete. \"Ils\" sont à l'embarquement!"
+                "text": "\"Ils\" s'apprêtent à quitter le territoire. Un vol Paris-Papeete. \"Ils\" sont à l'embarquement!",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Faites pour un mieux, Charbon. Discrètement."
+                "text": "Faites pour un mieux, Charbon. Discrètement.",
+                "arrows": ["b"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Je vous rejoins dans une heure à l'aéroport. Le temps de prévenir Moscou."
+                "text": "Je vous rejoins dans une heure à l'aéroport. Le temps de prévenir Moscou.",
+                "arrows": ["bl"]
               }
             ]
           },
@@ -234,57 +240,68 @@
                 "text": "Attention... Attention... Messieurs Spirou et Fantasio sont pries de se presenter à la salle de transit. Colouir \"S\", porte 25. Je répète..."
               },
               {
-                "text": "C'est pour nous! Qu'est-ce que...?!"
+                "text": "C'est pour nous! Qu'est-ce que...?!",
+                "arrows": ["bl"]
               },
               {
-                "text": "On verra bien, c'est par là"
+                "text": "On verra bien, c'est par là",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Porte 24. C'est ici."
+                "text": "Porte 24. C'est ici.",
+                "arrows": ["bl"]
               },
               {
-                "text": "Zut! La lumiere est morte!"
+                "text": "Zut! La lumiere est morte!",
+                "arrows": ["br"]
               },
               {
-                "text": "Clic"
+                "text": "Clic",
+                "arrows": ["b"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "C'est bizarre. Il doit s'agir d'une erreur."
+                "text": "C'est bizarre. Il doit s'agir d'une erreur.",
+                "arrows": ["bl"]
               },
               {
-                "text": "Attends, j'ai un briquet."
+                "text": "Attends, j'ai un briquet.",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "Allô, l'embarquement?"
+                "text": "Allô, l'embarquement?",
+                "arrows": ["br"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "On me prie de vous signaler un changement de derniere minute pour deux voyageurs, prévus pour le vol vers tahiti..."
+                "text": "On me prie de vous signaler un changement de derniere minute pour deux voyageurs, prévus pour le vol vers tahiti...",
+                "arrows": ["bl"]
               }
             ]
           },
           {
             "bubbles": [
               {
-                "text": "C'est bien ça, deux annulations...."
+                "text": "C'est bien ça, deux annulations....",
+                "arrows": ["bl"]
               },
               {
-                "text": "Messieurs Spirou et Fantasio"
+                "text": "Messieurs Spirou et Fantasio",
+                "arrows": ["bl"]
               }
             ]
           }

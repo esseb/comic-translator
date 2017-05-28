@@ -25,27 +25,26 @@ function renderArrows(arrows?: Arrows) {
   return arrows.map(arrow => (
     <div
       key={arrow}
-      className={`speech-bubble__arrow speech-bubble__arrow--${arrow}`}
+      className={`speech-box__arrow speech-box__arrow--${arrow}`}
     />
   ));
 }
 
-const SpeechBubble = (props: Props) => {
+const SpeechBox = (props: Props) => {
   return (
-    <div className="speech-bubble">
-      <div className="speech-bubble__content">
+    <div className="speech-box">
+      <div className="speech-box__content">
         {props.children}
         {renderArrows(props.arrows)}
       </div>
 
       <style global jsx>{`
-        .speech-bubble {
+        .speech-box {
           padding: ${BUBBLE_PADDING_OUTER}px;
         }
 
-        .speech-bubble__content {
+        .speech-box__content {
           background-color: white;
-          border-radius: 30px;
           border: ${BUBBLE_BORDER_WIDTH}px solid black;
           padding: ${BUBBLE_PADDING_INNER}px;
           position: relative;
@@ -58,68 +57,68 @@ const SpeechBubble = (props: Props) => {
           then mirrored horizontally or vertically if needed
           and absolutely positioned. 
         */
-        .speech-bubble__arrow--t,
-        .speech-bubble__arrow--r,
-        .speech-bubble__arrow--b,
-        .speech-bubble__arrow--l {
+        .speech-box__arrow--t,
+        .speech-box__arrow--r,
+        .speech-box__arrow--b,
+        .speech-box__arrow--l {
           height: 20px;
           position: absolute;
           width: 18px;
         }
 
-        .speech-bubble__arrow--t:before,
-        .speech-bubble__arrow--r:before,
-        .speech-bubble__arrow--b:before,
-        .speech-bubble__arrow--l:before,
-        .speech-bubble__arrow--t:after,
-        .speech-bubble__arrow--r:after,
-        .speech-bubble__arrow--b:after,
-        .speech-bubble__arrow--l:after {
+        .speech-box__arrow--t:before,
+        .speech-box__arrow--r:before,
+        .speech-box__arrow--b:before,
+        .speech-box__arrow--l:before,
+        .speech-box__arrow--t:after,
+        .speech-box__arrow--r:after,
+        .speech-box__arrow--b:after,
+        .speech-box__arrow--l:after {
           content: "";
           display: block;
           position: absolute;
           width: 0;
         }
 
-        .speech-bubble__arrow--t:before,
-        .speech-bubble__arrow--r:before,
-        .speech-bubble__arrow--b:before,
-        .speech-bubble__arrow--l:before {
+        .speech-box__arrow--t:before,
+        .speech-box__arrow--r:before,
+        .speech-box__arrow--b:before,
+        .speech-box__arrow--l:before {
           border-left: 8px solid transparent;
           border-right: 8px solid transparent;
           border-top: 20px solid black;
         }
 
-        .speech-bubble__arrow--t:after,
-        .speech-bubble__arrow--r:after,
-        .speech-bubble__arrow--b:after,
-        .speech-bubble__arrow--l:after {
+        .speech-box__arrow--t:after,
+        .speech-box__arrow--r:after,
+        .speech-box__arrow--b:after,
+        .speech-box__arrow--l:after {
           border-left: 8px solid transparent;
           border-right: 8px solid transparent;
           border-top: 20px solid white;
           margin-top: -4px;
         }
 
-        .speech-bubble__arrow--t {
+        .speech-box__arrow--t {
           bottom: 100%;
           left: 50%;
           transform: translateX(-50%) scaleY(-1);
         }
 
-        .speech-bubble__arrow--r {
+        .speech-box__arrow--r {
           left: 100%;
           margin-left: 1px;  /* Tiny tweak to prevent the black lines from going inside the bubble */
           top: 50%;
           transform: scaleX(-1) translateY(-50%) rotate(90deg);
         }
 
-        .speech-bubble__arrow--b {
+        .speech-box__arrow--b {
           left: 50%;
           top: 100%;
           transform: translateX(-50%);
         }
 
-        .speech-bubble__arrow--l {
+        .speech-box__arrow--l {
           margin-right: 1px;  /* Tiny tweak to prevent the black lines from going inside the bubble */
           right: 100%;
           top: 50%;
@@ -132,65 +131,65 @@ const SpeechBubble = (props: Props) => {
           then mirrored horizontally or vertically if needed
           and absolutely positioned. 
         */
-        .speech-bubble__arrow--tl,
-        .speech-bubble__arrow--tr,
-        .speech-bubble__arrow--bl,
-        .speech-bubble__arrow--br {
+        .speech-box__arrow--tl,
+        .speech-box__arrow--tr,
+        .speech-box__arrow--bl,
+        .speech-box__arrow--br {
           height: 20px;
           position: absolute;
           width: 18px;
         }
 
-        .speech-bubble__arrow--tl:before,
-        .speech-bubble__arrow--tr:before,
-        .speech-bubble__arrow--bl:before,
-        .speech-bubble__arrow--br:before,
-        .speech-bubble__arrow--tl:after,
-        .speech-bubble__arrow--tr:after,
-        .speech-bubble__arrow--bl:after,
-        .speech-bubble__arrow--br:after {
+        .speech-box__arrow--tl:before,
+        .speech-box__arrow--tr:before,
+        .speech-box__arrow--bl:before,
+        .speech-box__arrow--br:before,
+        .speech-box__arrow--tl:after,
+        .speech-box__arrow--tr:after,
+        .speech-box__arrow--bl:after,
+        .speech-box__arrow--br:after {
           content: "";
           display: block;
           position: absolute;
           width: 0;
         }
 
-        .speech-bubble__arrow--tl:before,
-        .speech-bubble__arrow--tr:before,
-        .speech-bubble__arrow--bl:before,
-        .speech-bubble__arrow--br:before {
+        .speech-box__arrow--tl:before,
+        .speech-box__arrow--tr:before,
+        .speech-box__arrow--bl:before,
+        .speech-box__arrow--br:before {
           border-right: 18px solid transparent;
           border-top: 20px solid black;
         }
 
-        .speech-bubble__arrow--tl:after,
-        .speech-bubble__arrow--tr:after,
-        .speech-bubble__arrow--bl:after,
-        .speech-bubble__arrow--br:after {
+        .speech-box__arrow--tl:after,
+        .speech-box__arrow--tr:after,
+        .speech-box__arrow--bl:after,
+        .speech-box__arrow--br:after {
           border-right: 18px solid transparent;
           border-top: 20px solid white;
           margin-left: 2px;
           margin-top: -5px;
         }
 
-        .speech-bubble__arrow--tl {
+        .speech-box__arrow--tl {
           bottom: 100%;
           left: 40px;
           transform: scaleY(-1);
         }
 
-        .speech-bubble__arrow--tr {
+        .speech-box__arrow--tr {
           bottom: 100%;
           right: 40px;
           transform: scaleX(-1) scaleY(-1);
         }
 
-        .speech-bubble__arrow--bl {
+        .speech-box__arrow--bl {
           left: 40px;
           top: 100%;
         }
 
-        .speech-bubble__arrow--br {
+        .speech-box__arrow--br {
           right: 40px;
           top: 100%;
           transform: scaleX(-1);
@@ -200,4 +199,4 @@ const SpeechBubble = (props: Props) => {
   );
 };
 
-export default SpeechBubble;
+export default SpeechBox;

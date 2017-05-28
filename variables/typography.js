@@ -1,3 +1,3 @@
 // @flow
 
-export const fontSizeDefault = 16;
+export const FONT_SIZE_DEFAULT = 16;

@@ -3,7 +3,7 @@
 import { Component } from "react";
 import ReactAriaModal from "react-aria-modal";
 import classNames from "classnames";
-import { baseline } from "../variables/spacing";
+import { BASELINE } from "../variables/spacing";
 
 function getApplicationNode(): HTMLElement | null {
   return document.querySelector("#__next");
@@ -254,7 +254,7 @@ class TranslationDialog extends Component {
           }
 
           .translation-dialog__translation {
-            margin-bottom: ${baseline}px;
+            margin-bottom: ${BASELINE}px;
           }
 
           .translation-dialog__heading {
