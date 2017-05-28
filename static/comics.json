@@ -306,6 +306,78 @@
             ]
           }
         ]
+      },
+      {
+        "panels": [
+          {
+            "bubbles": [
+              {
+                "text": "La nature particulière de ce pays, la rudesse de sont climat mais surtout son immensité et le poids qu'il exerce sur le destin de la planete tout entière justifient qu'on s'arrête un instant sur quelques-uns de ses aspects les plus remarquables...",
+                "type": "SPEECH_BOX"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Tout au long d'une histoire tourmentée, son peuple dut défendre une terre convoitée par des hordes bellqueuses déferlant de toues les frontières. Polonais, Lituaniens, Teutons, Suédois, Finnois, Trucs, Mongols (et mêmeme un peu les Français), tous finiront par être refoulés au prix de sanglants sacrifices.",
+                "type": "SPEECH_BOX"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Ces luttes incessantes forgèrent l'étonnante àme slave, alliant une sage rudesse paysanne à une sensibilité proverbiale.",
+                "type": "SPEECH_BOX"
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "...TU PLEURES, IVAN?",
+                "arrows": ["bl"]
+              },
+              {
+                "text": "C'EST LE VIOLON! J'Y PEUX RIEN, ÇA ME REND TRISTE!",
+                "arrows": ["br"]
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "IVAN IVANOVITCH MON ÁME, C'ETAIT LA LUTTE FINALE! RENTRONS!",
+                "arrows": ["bl"]
+              },
+              {
+                "text": "SNIF, T'AS RAISON!",
+                "arrows": ["br"]
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Et sous ses dehors austères, le Russe sait à l'occasion manier un humour certain.",
+                "type": "SPEECH_BOX"
+              },
+              {
+                "text": "D'AILLEURS, IL SE FAIT TSAR! HI HI!",
+                "arrows": ["l"]
+              }
+            ]
+          },
+          {
+            "bubbles": [
+              {
+                "text": "Par ailleurs, ce formidable creuset offrit à l'humanité quelques-unes de ses plus grandes figures...",
+                "type": "SPEECH_BOX"
+              }
+            ]
+          }
+        ]
       }
     ]
   }
